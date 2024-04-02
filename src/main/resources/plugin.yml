@@ -1,0 +1,7 @@
+name: Collections
+version: '${project.version}'
+main: net.vitacraft.collections.Collections
+api-version: '1.20'
+load: STARTUP
+authors: [siea]
+website: https://projects.siea.dev/collections
