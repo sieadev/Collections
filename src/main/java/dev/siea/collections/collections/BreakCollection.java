@@ -1,8 +1,8 @@
 package dev.siea.collections.collections;
 
+import dev.siea.collections.Collections;
 import dev.siea.collections.collections.task.Task;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,13 +21,16 @@ public class BreakCollection implements Collection, Listener {
     private final Task tasks;
     private final Material block;
     private final List<Integer> level;
-    public BreakCollection(String name, String description, boolean global, boolean inviteOnly, Task task) {
+    private final List<List<String>> commands;
+
+    public BreakCollection(String name, String description, List<List<String>> commands, boolean global, boolean inviteOnly, Task task) {
         this.name = name;
         this.description = description;
         this.global = global;
         this.inviteOnly = inviteOnly;
         this.tasks = task;
         this.level = task.getLevel();
+        this.commands = commands;
         block = (Material) task.getTarget();
     }
 
@@ -52,8 +55,12 @@ public class BreakCollection implements Collection, Listener {
         }
 
         if (currentLevel != -1) {
-            //Do what ever
             System.out.println(player.getName() + " leveled up to tier " + currentLevel);
+            try{
+                Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin(),);
+            } catch (Exception e){
+
+            }
         }
     }
 
