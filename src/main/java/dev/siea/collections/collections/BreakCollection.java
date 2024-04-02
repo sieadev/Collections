@@ -2,6 +2,7 @@ package dev.siea.collections.collections;
 
 import dev.siea.collections.Collections;
 import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.util.LevelUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,26 +43,7 @@ public class BreakCollection implements Collection, Listener {
         int oldScore = scores.getOrDefault(player, 0);
         int newScore = scores.getOrDefault(player, 0)+1;
         scores.put(player, newScore);
-        checkLevel(player, oldScore, newScore);
-    }
-
-    private void checkLevel(Player player, int oldScore, int newScore) {
-        int currentLevel = -1;
-        for (int i = 0; i < level.size(); i++) {
-            if (newScore >= level.get(i) && oldScore < level.get(i)) {
-                currentLevel = i + 1;
-                break;
-            }
-        }
-
-        if (currentLevel != -1) {
-            System.out.println(player.getName() + " leveled up to tier " + currentLevel);
-            try{
-                Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin(),);
-            } catch (Exception e){
-
-            }
-        }
+        LevelUtil.checkLevel(player, oldScore, newScore, level, commands);
     }
 
     @Override
