@@ -1,4 +1,4 @@
-package net.vitacraft.collections.api;
+package dev.siea.collections.api;
 
 public class CollectionsAPI {
 }

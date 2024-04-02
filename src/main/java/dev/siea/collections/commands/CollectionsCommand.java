@@ -1,2 +1,5 @@
-package dev.siea.collections.commands;public class CollectionsCommand {
+package dev.siea.collections.commands;
+
+public class CollectionsCommand {
+
 }

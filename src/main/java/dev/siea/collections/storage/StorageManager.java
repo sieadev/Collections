@@ -1,2 +1,4 @@
-package dev.siea.collections.storage;public class StorageManager {
+package dev.siea.collections.storage;
+
+public class StorageManager {
 }

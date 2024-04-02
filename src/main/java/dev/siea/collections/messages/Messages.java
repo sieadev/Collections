@@ -1,2 +1,4 @@
-package dev.siea.collections.messages;public class Messages {
+package dev.siea.collections.messages;
+
+public class Messages {
 }

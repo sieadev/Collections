@@ -1,4 +1,4 @@
-package net.vitacraft.collections.collections;
+package dev.siea.collections.collections;
 
 public enum Type {
     BREAK,

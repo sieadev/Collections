@@ -1,6 +1,6 @@
 name: Collections
 version: '${project.version}'
-main: net.vitacraft.collections.Collections
+main: dev.siea.collections.Collections
 api-version: '1.20'
 load: STARTUP
 authors: [siea]

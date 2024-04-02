@@ -1,4 +1,4 @@
-package net.vitacraft.collections;
+package dev.siea.collections;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
