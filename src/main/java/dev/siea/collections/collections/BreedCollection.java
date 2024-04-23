@@ -79,8 +79,14 @@ public class BreedCollection implements Collection, Listener {
     public boolean requiresInvite() {
         return inviteOnly;
     }
+
     @Override
     public List<List<String>> getCommands() {
         return commands;
+    }
+
+    @Override
+    public int getPlayerScore(Player player){
+        return scores.getOrDefault(player, -1);
     }
 }

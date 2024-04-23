@@ -2,6 +2,7 @@ package dev.siea.collections.collections;
 
 import dev.siea.collections.collections.task.Task;
 import dev.siea.collections.util.LevelUtil;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -81,9 +82,15 @@ public class KillCollection implements Collection, Listener {
     public boolean requiresInvite() {
         return inviteOnly;
     }
+
     @Override
     public List<List<String>> getCommands() {
         return commands;
+    }
+
+    @Override
+    public int getPlayerScore(Player player){
+        return scores.getOrDefault(player, -1);
     }
 }
 

@@ -10,6 +10,7 @@ public interface Collection {
     String getDescription();
     Type getType();
     List<Player> getParticipants();
+    int getPlayerScore(Player player);
     Task getTasks();
     boolean isGlobal();
     boolean requiresInvite();

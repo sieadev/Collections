@@ -85,4 +85,9 @@ public class BreakCollection implements Collection, Listener {
     public List<List<String>> getCommands() {
         return commands;
     }
+
+    @Override
+    public int getPlayerScore(Player player){
+        return scores.getOrDefault(player, -1);
+    }
 }
