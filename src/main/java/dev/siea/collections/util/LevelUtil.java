@@ -10,6 +10,11 @@ import java.util.List;
 
 public class LevelUtil {
     public static void checkLevel(Player player, int oldScore, int newScore, List<Integer> level, Collection collection) {
+
+        if (newScore == 1) {
+            player.sendMessage(Messages.get("unlocked").replace("%collection%", collection.getName()));
+        }
+        
         int currentLevel = -1;
         for (int i = 0; i < level.size(); i++) {
             if (newScore >= level.get(i) && oldScore < level.get(i)) {

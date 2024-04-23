@@ -7,5 +7,5 @@ authors: [siea]
 website: https://projects.siea.dev/collections
 commands:
   collections:
-    permission: collections.create
-    description: Create collections
+    permission: collections.overview
+    description: View your active collections

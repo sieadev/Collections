@@ -2,10 +2,13 @@ package dev.siea.collections.managers;
 
 import dev.siea.collections.collections.*;
 import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.gui.GUIWrapper;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,9 +39,10 @@ public class Manager {
         }
         collections.add(collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
+        GUIWrapper.addCollection(collection);
     }
 
-    public static void createCollection(Type type, String name, String description, Object target, boolean global, boolean inviteOnly, int level, int multiplier, int startingIndex){
+    public static void createCollection(Type type, String name, String description, Object target, boolean global, boolean inviteOnly, int level, int startingIndex, double multiplier){
         Collection collection;
         switch (type){
             case KILL:
@@ -61,6 +65,7 @@ public class Manager {
         }
         collections.add(collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
+        GUIWrapper.addCollection(collection);
     }
 
     public static Collection getCollection(String name){
@@ -78,5 +83,14 @@ public class Manager {
 
     public static void shutdown(){
         //Save collections to storage
+    }
+
+    public static HashMap<String, Integer> getPlayerScores(Player player) {
+        HashMap<String, Integer> scores = new HashMap<>();
+        for (Collection collection : collections){
+            int score = collection.getPlayerScore(player);
+            if (score > -1) scores.put(collection.getName(), score);
+        }
+        return scores;
     }
 }

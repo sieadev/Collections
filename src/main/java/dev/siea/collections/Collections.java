@@ -2,6 +2,7 @@ package dev.siea.collections;
 
 import dev.siea.collections.api.CollectionsAPI;
 import dev.siea.collections.commands.CollectionsCommand;
+import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.messages.Messages;
 import org.bukkit.plugin.Plugin;
