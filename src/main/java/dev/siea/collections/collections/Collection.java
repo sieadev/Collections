@@ -13,4 +13,5 @@ public interface Collection {
     Task getTasks();
     boolean isGlobal();
     boolean requiresInvite();
+    List<List<String>> getCommands();
 }

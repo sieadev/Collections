@@ -4,8 +4,6 @@ public enum Type {
     BREAK,
     PLACE,
     KILL,
-    PICKUP,
     DELIVER,
     BREED
-
 }

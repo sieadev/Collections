@@ -41,9 +41,9 @@ public class BreakCollection implements Collection, Listener {
         Player player = e.getPlayer();
         if (inviteOnly && !scores.containsKey(player)) return;
         int oldScore = scores.getOrDefault(player, 0);
-        int newScore = scores.getOrDefault(player, 0)+1;
+        int newScore = oldScore + 1;
         scores.put(player, newScore);
-        LevelUtil.checkLevel(player, oldScore, newScore, level, commands);
+        LevelUtil.checkLevel(player, oldScore, newScore, level, this);
     }
 
     @Override
@@ -79,5 +79,10 @@ public class BreakCollection implements Collection, Listener {
     @Override
     public boolean requiresInvite() {
         return inviteOnly;
+    }
+
+    @Override
+    public List<List<String>> getCommands() {
+        return commands;
     }
 }
