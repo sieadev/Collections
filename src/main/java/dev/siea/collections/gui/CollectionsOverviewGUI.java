@@ -56,7 +56,7 @@ public class CollectionsOverviewGUI implements GUI{
             for (String key : scores.keySet()) {
                 List<String> description = new ArrayList<>();
                 Task task = tasks.get(key);
-                description.add(descriptions.get(key));
+                description.add("§f" + descriptions.get(key));
                 description.add("§e§lTask:");
                 description.add("§aType - §6" + types.get(key).name());
                 Object target = task.getTarget();
@@ -66,7 +66,7 @@ public class CollectionsOverviewGUI implements GUI{
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
                 description.add("§aScore - §6" + scores.get(key));
-                ItemStack collection = createItem("§f" + key, icons.get(key), "§f" + description);
+                ItemStack collection = createItem("§f" + key, icons.get(key), description);
                 inventory.setItem(slot++, collection);
             }
         }
