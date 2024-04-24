@@ -15,56 +15,58 @@ public class Manager {
     private static Plugin plugin;
     private static final List<Collection> collections = new ArrayList<>();
 
-    public static void createCollection(Type type, String name, String description, Object target, boolean global, int level, int startingIndex){
+    public static Collection createCollection(Type type, String name, String description,  List<List<String>> rewards, Object target, boolean global, int level, int startingIndex){
         Collection collection;
         switch (type){
             case KILL:
-                collection = new KillCollection(name, description, null, global, new Task(target,level,startingIndex));
+                collection = new KillCollection(name, description, rewards, global, new Task(target,level,startingIndex));
                 break;
             case BREAK:
-                collection = new BreakCollection(name, description, null, global, new Task(target,level,startingIndex));
+                collection = new BreakCollection(name, description, rewards, global, new Task(target,level,startingIndex));
                 break;
             case BREED:
-                collection = new BreedCollection(name, description, null, global, new Task(target,level,startingIndex));
+                collection = new BreedCollection(name, description, rewards, global, new Task(target,level,startingIndex));
                 break;
             case PLACE:
-                collection = new PlaceCollection(name, description, null, global, new Task(target,level,startingIndex));
+                collection = new PlaceCollection(name, description, rewards, global, new Task(target,level,startingIndex));
                 break;
             case DELIVER:
-                collection = new DeliverCollection(name, description, null, global, new Task(target,level,startingIndex));
+                collection = new DeliverCollection(name, description, rewards, global, new Task(target,level,startingIndex));
                 break;
             default:
-                return;
+                return null;
         }
         collections.add(collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
         GUIWrapper.addCollection(collection);
+        return collection;
     }
 
-    public static void createCollection(Type type, String name, String description, Object target, boolean global, int level, int startingIndex, double multiplier){
+    public static Collection createCollection(Type type, String name, String description, List<List<String>> rewards, Object target, boolean global, int level, int startingIndex, double multiplier){
         Collection collection;
         switch (type){
             case KILL:
-                collection = new KillCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
+                collection = new KillCollection(name, description,rewards,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case BREAK:
-                collection = new BreakCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
+                collection = new BreakCollection(name, description,rewards,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case BREED:
-                collection = new BreedCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
+                collection = new BreedCollection(name, description,rewards,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case PLACE:
-                collection = new PlaceCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
+                collection = new PlaceCollection(name, description,rewards,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case DELIVER:
-                collection = new DeliverCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
+                collection = new DeliverCollection(name, description,rewards,global, new Task(target,level,startingIndex,multiplier));
                 break;
             default:
-                return;
+                return null;
         }
         collections.add(collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
         GUIWrapper.addCollection(collection);
+        return collection;
     }
 
     public static Collection getCollection(String name){

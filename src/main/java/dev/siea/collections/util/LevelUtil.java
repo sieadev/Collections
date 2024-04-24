@@ -6,6 +6,7 @@ import dev.siea.collections.messages.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LevelUtil {
@@ -25,8 +26,10 @@ public class LevelUtil {
 
         if (currentLevel != -1) {
             try{
-                for (List<String> command : collection.getCommands()) {
-                    Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin().getServer().getConsoleSender(), command.toString());
+                List<List<String>> commands = collection.getCommands();
+                List<String> command = commands.get(currentLevel-1);
+                for (String cmd : command){
+                    Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin().getServer().getConsoleSender(), cmd);
                 }
             } catch (Exception e){
                 System.out.println("Unable to execute command for " + player.getName());
