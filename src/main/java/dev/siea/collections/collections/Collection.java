@@ -1,6 +1,6 @@
 package dev.siea.collections.collections;
 
-import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.collections.other.Task;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -13,6 +13,5 @@ public interface Collection {
     int getPlayerScore(Player player);
     Task getTasks();
     boolean isGlobal();
-    boolean requiresInvite();
     List<List<String>> getCommands();
 }

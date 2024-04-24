@@ -1,7 +1,7 @@
 package dev.siea.collections.managers;
 
 import dev.siea.collections.collections.*;
-import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.gui.GUIWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -10,29 +10,28 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class Manager {
     private static Plugin plugin;
     private static final List<Collection> collections = new ArrayList<>();
 
-    public static void createCollection(Type type, String name, String description, Object target, boolean global, boolean inviteOnly, int level, int startingIndex){
+    public static void createCollection(Type type, String name, String description, Object target, boolean global, int level, int startingIndex){
         Collection collection;
         switch (type){
             case KILL:
-                collection = new KillCollection(name, description, null, global, inviteOnly, new Task(target,level,startingIndex));
+                collection = new KillCollection(name, description, null, global, new Task(target,level,startingIndex));
                 break;
             case BREAK:
-                collection = new BreakCollection(name, description, null, global, inviteOnly, new Task(target,level,startingIndex));
+                collection = new BreakCollection(name, description, null, global, new Task(target,level,startingIndex));
                 break;
             case BREED:
-                collection = new BreedCollection(name, description, null, global, inviteOnly, new Task(target,level,startingIndex));
+                collection = new BreedCollection(name, description, null, global, new Task(target,level,startingIndex));
                 break;
             case PLACE:
-                collection = new PlaceCollection(name, description, null, global, inviteOnly, new Task(target,level,startingIndex));
+                collection = new PlaceCollection(name, description, null, global, new Task(target,level,startingIndex));
                 break;
             case DELIVER:
-                collection = new DeliverCollection(name, description, null, global, inviteOnly, new Task(target,level,startingIndex));
+                collection = new DeliverCollection(name, description, null, global, new Task(target,level,startingIndex));
                 break;
             default:
                 return;
@@ -42,23 +41,23 @@ public class Manager {
         GUIWrapper.addCollection(collection);
     }
 
-    public static void createCollection(Type type, String name, String description, Object target, boolean global, boolean inviteOnly, int level, int startingIndex, double multiplier){
+    public static void createCollection(Type type, String name, String description, Object target, boolean global, int level, int startingIndex, double multiplier){
         Collection collection;
         switch (type){
             case KILL:
-                collection = new KillCollection(name, description,null,global, inviteOnly, new Task(target,level,startingIndex,multiplier));
+                collection = new KillCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case BREAK:
-                collection = new BreakCollection(name, description,null,global, inviteOnly, new Task(target,level,startingIndex,multiplier));
+                collection = new BreakCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case BREED:
-                collection = new BreedCollection(name, description,null,global, inviteOnly, new Task(target,level,startingIndex,multiplier));
+                collection = new BreedCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case PLACE:
-                collection = new PlaceCollection(name, description,null,global, inviteOnly, new Task(target,level,startingIndex,multiplier));
+                collection = new PlaceCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
                 break;
             case DELIVER:
-                collection = new DeliverCollection(name, description,null,global, inviteOnly, new Task(target,level,startingIndex,multiplier));
+                collection = new DeliverCollection(name, description,null,global, new Task(target,level,startingIndex,multiplier));
                 break;
             default:
                 return;

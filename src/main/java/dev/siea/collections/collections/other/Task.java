@@ -1,4 +1,4 @@
-package dev.siea.collections.collections.task;
+package dev.siea.collections.collections.other;
 import java.util.ArrayList;
 import java.util.List;
 

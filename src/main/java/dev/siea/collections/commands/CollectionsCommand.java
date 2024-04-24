@@ -16,7 +16,7 @@ public class CollectionsCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender,@NotNull Command cmd,@NotNull String label, String[] args) {
         if (sender instanceof Player) { GUIWrapper.openGUI((Player) sender, CollectionsOverviewGUI.class); }
         else {
-            Manager.createCollection(Type.KILL,"Zombie Slayer", "Slay Zombies to unlock what ever", EntityType.ZOMBIE, true, false, 5, 3, 1.5);
+            Manager.createCollection(Type.KILL,"Zombie Slayer", "Slay Zombies to unlock what ever", EntityType.ZOMBIE, true, 5, 3, 1.5);
         }
         return true;
     }

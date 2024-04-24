@@ -1,6 +1,6 @@
 package dev.siea.collections.collections;
 
-import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.util.LevelUtil;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,17 +17,15 @@ public class BreedCollection implements Collection, Listener {
     private final String description;
     private final HashMap<Player, Integer> scores = new HashMap<>();
     private final boolean global;
-    private final boolean inviteOnly;
     private final Task tasks;
     private final EntityType entityType;
     private final List<Integer> level;
     private final List<List<String>> commands;
 
-    public BreedCollection(String name, String description, List<List<String>> commands, boolean global, boolean inviteOnly, Task task) {
+    public BreedCollection(String name, String description, List<List<String>> commands, boolean global, Task task) {
         this.name = name;
         this.description = description;
         this.global = global;
-        this.inviteOnly = inviteOnly;
         this.tasks = task;
         this.level = task.getLevel();
         this.commands = commands;
@@ -38,7 +36,7 @@ public class BreedCollection implements Collection, Listener {
     public void onEntityBread(EntityBreedEvent e){
         if (e.getEntity().getType() != entityType) return;
         Player player = (Player) e.getBreeder();
-        if (inviteOnly && !scores.containsKey(player)) return;
+        if (!global && !scores.containsKey(player)) return;
         int oldScore = scores.getOrDefault(player, 0);
         int newScore = oldScore + 1;
         scores.put(player, newScore);
@@ -73,11 +71,6 @@ public class BreedCollection implements Collection, Listener {
     @Override
     public boolean isGlobal() {
         return global;
-    }
-
-    @Override
-    public boolean requiresInvite() {
-        return inviteOnly;
     }
 
     @Override

@@ -16,6 +16,7 @@ public final class Collections extends JavaPlugin {
         saveResource("messages.yml", false);
         Messages.onEnable(this);
         Manager.enable(this);
+        getServer().getPluginManager().registerEvents(new GUIWrapper(),this);
         getCommand("collections").setExecutor(new CollectionsCommand());
     }
 

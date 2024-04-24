@@ -2,7 +2,7 @@ package dev.siea.collections.gui;
 
 import dev.siea.collections.collections.Collection;
 import dev.siea.collections.collections.Type;
-import dev.siea.collections.collections.task.Task;
+import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.managers.Manager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
