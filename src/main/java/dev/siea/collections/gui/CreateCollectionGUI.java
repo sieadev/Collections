@@ -1,4 +1,4 @@
 package dev.siea.collections.gui;
 
-public class CreateCollectionGUI {
+public class CreateCollectionGUI implements GUI{
 }

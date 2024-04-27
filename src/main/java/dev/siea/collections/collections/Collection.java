@@ -14,4 +14,5 @@ public interface Collection {
     Task getTasks();
     boolean isGlobal();
     List<List<String>> getCommands();
+    int getID();
 }

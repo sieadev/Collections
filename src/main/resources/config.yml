@@ -1,0 +1,10 @@
+# Collections 1.0
+# made with <3 by sieadev
+
+# ----------------------- STORAGE -----------------------
+storage: "MYSQL"
+database:
+  ip: ""
+  name: ""
+  user: ""
+  password: ""

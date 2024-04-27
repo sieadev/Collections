@@ -1,6 +1,7 @@
 package dev.siea.collections.collections;
 
 import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.storage.StorageManager;
 import dev.siea.collections.util.LevelUtil;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public class KillCollection implements Collection, Listener {
     private final EntityType entityType;
     private final List<Integer> level;
     private final List<List<String>> commands;
+    private final int id;
 
     public KillCollection(String name, String description, List<List<String>> commands, boolean global, Task task) {
         this.name = name;
@@ -29,6 +31,20 @@ public class KillCollection implements Collection, Listener {
         this.level = task.getLevel();
         this.commands = commands;
         entityType = (EntityType) task.getTarget();
+
+        this.id = StorageManager.registerCollection(this);
+    }
+
+    public KillCollection(String name, String description, List<List<String>> commands, boolean global, Task task, int id) {
+        this.name = name;
+        this.description = description;
+        this.global = global;
+        this.tasks = task;
+        this.level = task.getLevel();
+        this.commands = commands;
+        entityType = (EntityType) task.getTarget();
+
+        this.id = id;
     }
 
     @EventHandler
@@ -41,6 +57,11 @@ public class KillCollection implements Collection, Listener {
         int newScore = oldScore + 1;
         scores.put(player, newScore);
         LevelUtil.checkLevel(player, oldScore, newScore, level, this);
+    }
+
+    @Override
+    public int getID() {
+        return 0;
     }
 
     @Override

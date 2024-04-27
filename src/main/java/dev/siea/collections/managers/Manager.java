@@ -3,6 +3,7 @@ package dev.siea.collections.managers;
 import dev.siea.collections.collections.*;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.gui.GUIWrapper;
+import dev.siea.collections.storage.StorageManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -80,6 +81,7 @@ public class Manager {
 
     public static void enable(Plugin plugin) {
         Manager.plugin = plugin;
+        collections.addAll(StorageManager.getCollections());
     }
 
     public static void shutdown(){

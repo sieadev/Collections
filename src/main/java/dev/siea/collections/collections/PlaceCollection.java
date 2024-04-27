@@ -1,6 +1,7 @@
 package dev.siea.collections.collections;
 
 import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.storage.StorageManager;
 import dev.siea.collections.util.LevelUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ public class PlaceCollection implements Collection, Listener {
     private final Material block;
     private final List<Integer> level;
     private final List<List<String>> commands;
+    private final int id;
 
     public PlaceCollection(String name, String description, List<List<String>> commands, boolean global, Task task) {
         this.name = name;
@@ -30,6 +32,20 @@ public class PlaceCollection implements Collection, Listener {
         this.level = task.getLevel();
         this.commands = commands;
         block = (Material) task.getTarget();
+
+        this.id = StorageManager.registerCollection(this);
+    }
+
+    public PlaceCollection(String name, String description, List<List<String>> commands, boolean global, Task task, int id) {
+        this.name = name;
+        this.description = description;
+        this.global = global;
+        this.tasks = task;
+        this.level = task.getLevel();
+        this.commands = commands;
+        block = (Material) task.getTarget();
+
+        this.id = id;
     }
 
     @EventHandler
@@ -46,6 +62,11 @@ public class PlaceCollection implements Collection, Listener {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int getID() {
+        return id;
     }
 
     @Override
