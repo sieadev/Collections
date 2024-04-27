@@ -45,14 +45,8 @@ public class MySQLWrapper implements Storage {
     private void createCollectionDataTable(int id){
         try (Connection connection = dataSource.getConnection()) {
             String createTableSQL = "CREATE TABLE IF NOT EXISTS " + id + " ("
-                    + "ID          varchar(8) not null,"
-                    + "Name        varchar(8) not null,"
-                    + "Description varchar(8) not null,"
-                    + "Type        varchar(8) not null,"
-                    + "Target      text       not null,"
-                    + "Level       text       not null,"
-                    + "Global      tinyint(1) not null,"
-                    + "Commands    text       not null "
+                    + "UUID        varchar(8) not null,"
+                    + "Score       varchar(8) not null "
                     + ")";
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate(createTableSQL);
