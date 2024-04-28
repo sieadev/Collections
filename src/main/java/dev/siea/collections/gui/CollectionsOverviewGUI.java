@@ -18,17 +18,19 @@ import java.util.List;
 import static dev.siea.collections.util.GUIUtil.createItem;
 
 public class CollectionsOverviewGUI implements GUI{
-    private final HashMap<String, Material> icons = new HashMap<>();
-    private final HashMap<String, String> descriptions = new HashMap<>();
-    private final HashMap<String, Task> tasks = new HashMap<>();
-    private final HashMap<String, Type> types = new HashMap<>();
+    private final HashMap<Integer, String> names = new HashMap<>();
+    private final HashMap<Integer, Material> icons = new HashMap<>();
+    private final HashMap<Integer, String> descriptions = new HashMap<>();
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private final HashMap<Integer, Type> types = new HashMap<>();
 
 
     public void addCollection(Collection collection) {
-        icons.put(collection.getName(), Material.GRASS_BLOCK);
-        descriptions.put(collection.getName(), collection.getDescription());
-        tasks.put(collection.getName(), collection.getTasks());
-        types.put(collection.getName(), collection.getType());
+        icons.put(collection.getID(), Material.GRASS_BLOCK);
+        descriptions.put(collection.getID(), collection.getDescription());
+        tasks.put(collection.getID(), collection.getTasks());
+        types.put(collection.getID(), collection.getType());
+        names.put(collection.getID(), collection.getName());
     }
 
     public Inventory generateInventory(Player p) {
@@ -54,11 +56,15 @@ public class CollectionsOverviewGUI implements GUI{
         else{
             int slot = 10;
             for (String key : scores.keySet()) {
+                if (slot == 17 || slot == 26|| slot == 35) {
+                    slot = slot + 2;
+                }
                 List<String> description = new ArrayList<>();
-                Task task = tasks.get(key);
-                description.add("§7" + descriptions.get(key));
+                int keyInt = Integer.parseInt(key);
+                Task task = tasks.get(keyInt);
+                description.add("§7" + descriptions.get(keyInt));
                 description.add("§e§lTask:");
-                description.add("§aType - §6" + types.get(key).name());
+                description.add("§aType - §6" + types.get(keyInt).name());
                 Object target = task.getTarget();
                 if (target instanceof Material) {
                     description.add("§aBlock - §b" + target.toString().replace("_", " "));
@@ -66,7 +72,7 @@ public class CollectionsOverviewGUI implements GUI{
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
                 description.add("§aScore - §6" + scores.get(key));
-                ItemStack collection = createItem("§f" + key, icons.get(key), description);
+                ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
                 inventory.setItem(slot++, collection);
                 description.add("");
                 description.add("§eClick to view!");

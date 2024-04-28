@@ -11,6 +11,7 @@ public interface Collection {
     Type getType();
     List<Player> getParticipants();
     int getPlayerScore(Player player);
+    void setPlayerScore(Player player, int integer);
     Task getTasks();
     boolean isGlobal();
     List<List<String>> getCommands();

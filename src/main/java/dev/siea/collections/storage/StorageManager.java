@@ -3,8 +3,10 @@ package dev.siea.collections.storage;
 import dev.siea.collections.collections.Collection;
 import dev.siea.collections.storage.file.FileWrapper;
 import dev.siea.collections.storage.mysql.MySQLWrapper;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,5 +52,17 @@ public class StorageManager {
 
     public static List<Collection> getCollections(){
         return storage.getCollections();
+    }
+
+    public static HashMap<String, Integer> getCollectionScores(Player player) {
+        return storage.getCollectionScores(player);
+    }
+
+    public static void saveCollectionScores(Player player, HashMap<String, Integer> scores) {
+        storage.saveCollectionScores(player, scores);
+    }
+
+    public static void shutdown(){
+        storage.shutdown();
     }
 }

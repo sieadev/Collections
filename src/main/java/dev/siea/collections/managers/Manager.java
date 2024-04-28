@@ -4,6 +4,7 @@ import dev.siea.collections.collections.*;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.storage.StorageManager;
+import dev.siea.collections.util.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class Manager {
     private static Plugin plugin;
-    private static final List<Collection> collections = new ArrayList<>();
+    private static final HashMap<Integer, Collection> collections = new HashMap<>();
 
     public static Collection createCollection(Type type, String name, String description,  List<List<String>> rewards, Object target, boolean global, int level, int startingIndex){
         Collection collection;
@@ -37,7 +38,7 @@ public class Manager {
             default:
                 return null;
         }
-        collections.add(collection);
+        collections.put(collection.getID(), collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
         GUIWrapper.addCollection(collection);
         return collection;
@@ -64,14 +65,14 @@ public class Manager {
             default:
                 return null;
         }
-        collections.add(collection);
+        collections.put(collection.getID(), collection);
         plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
         GUIWrapper.addCollection(collection);
         return collection;
     }
 
     public static Collection getCollection(String name){
-        for (Collection collection : collections){
+        for (Collection collection : collections.values()){
             if (collection.getName().equals(name)){
                 return collection;
             }
@@ -81,7 +82,11 @@ public class Manager {
 
     public static void enable(Plugin plugin) {
         Manager.plugin = plugin;
-        collections.addAll(StorageManager.getCollections());
+        for (Collection collection : StorageManager.getCollections()){
+            collections.put(collection.getID(), collection);
+            plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
+            GUIWrapper.addCollection(collection);
+        }
     }
 
     public static void shutdown(){
@@ -90,10 +95,32 @@ public class Manager {
 
     public static HashMap<String, Integer> getPlayerScores(Player player) {
         HashMap<String, Integer> scores = new HashMap<>();
-        for (Collection collection : collections){
+        for (Collection collection : collections.values()){
             int score = collection.getPlayerScore(player);
-            if (score > -1) scores.put(collection.getName(), score);
+            if (score > -1) scores.put(String.valueOf(collection.getID()), score);
         }
         return scores;
+    }
+
+    public static void loadPlayerData(Player player) {
+        HashMap<String, Integer> scores = StorageManager.getCollectionScores(player);
+        for (Collection collection : collections.values()){
+            for (String key : scores.keySet()){
+                if (key.equals(String.valueOf(collection.getID()))){
+                    collection.setPlayerScore(player, scores.get(key));
+                }
+            }
+        }
+    }
+
+    public static void savePlayerData(Player player) {
+        HashMap<String, Integer> scores = getPlayerScores(player);
+        StorageManager.saveCollectionScores(player,scores);
+    }
+
+    public static void disable() {
+        for (Player player : plugin.getServer().getOnlinePlayers()){
+            savePlayerData(player);
+        }
     }
 }

@@ -6,8 +6,11 @@ import dev.siea.collections.collections.*;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.storage.Storage;
 import dev.siea.collections.util.Log;
+import org.bukkit.entity.Player;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MySQLWrapper implements Storage {
@@ -25,10 +28,10 @@ public class MySQLWrapper implements Storage {
     private void createCollectionsTable(){
         try (Connection connection = dataSource.getConnection()) {
             String createTableSQL = "CREATE TABLE IF NOT EXISTS Collections ("
-                    + "ID          varchar(8) not null,"
-                    + "Name        varchar(8) not null,"
-                    + "Description varchar(8) not null,"
-                    + "Type        varchar(8) not null,"
+                    + "ID          varchar(256) not null,"
+                    + "Name        varchar(256) not null,"
+                    + "Description varchar(256) not null,"
+                    + "Type        varchar(256) not null,"
                     + "Target      text       not null,"
                     + "Level       text       not null,"
                     + "Global      tinyint(1) not null,"
@@ -44,9 +47,9 @@ public class MySQLWrapper implements Storage {
 
     private void createCollectionDataTable(int id){
         try (Connection connection = dataSource.getConnection()) {
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS " + id + " ("
-                    + "UUID        varchar(8) not null,"
-                    + "Score       varchar(8) not null "
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS _" + id + " ("
+                    + "UUID        varchar(36) not null,"
+                    + "Score       INTEGER not null "
                     + ")";
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate(createTableSQL);
@@ -85,19 +88,19 @@ public class MySQLWrapper implements Storage {
                     Collection collection;
                     switch (type){
                         case BREAK:
-                            collection = new BreakCollection(name, description, commands ,global, new Task(target,level));
+                            collection = new BreakCollection(name, description, commands ,global, new Task(target,level),Integer.parseInt(id));
                             break;
                         case PLACE:
-                            collection = new PlaceCollection(name, description, commands ,global, new Task(target,level));
+                            collection = new PlaceCollection(name, description, commands ,global, new Task(target,level),Integer.parseInt(id));
                             break;
                         case KILL:
-                            collection = new KillCollection(name, description, commands ,global, new Task(target,level));
+                            collection = new KillCollection(name, description, commands ,global, new Task(target,level),Integer.parseInt(id));
                             break;
                         case BREED:
-                            collection = new BreedCollection(name, description, commands ,global, new Task(target,level));
+                            collection = new BreedCollection(name, description, commands ,global, new Task(target,level),Integer.parseInt(id));
                             break;
                         case DELIVER:
-                            collection = new DeliverCollection(name, description, commands ,global, new Task(target,level));
+                            collection = new DeliverCollection(name, description, commands ,global, new Task(target,level),Integer.parseInt(id));
                             break;
                         default:
                             Log.str("Collection Type " + type + " does not exist");
@@ -148,6 +151,64 @@ public class MySQLWrapper implements Storage {
         }
         createCollectionDataTable(id);
         return id;
+    }
+
+    @Override
+    public HashMap<String, Integer> getCollectionScores(Player player) {
+        HashMap<String, Integer> scores = new HashMap<>();
+        try (Connection connection = dataSource.getConnection()) {
+            String idQuery = "SELECT ID FROM Collections";
+            try (PreparedStatement idStatement = connection.prepareStatement(idQuery)) {
+                ResultSet idResultSet = idStatement.executeQuery();
+                while (idResultSet.next()) {
+                    String id = idResultSet.getString("ID");
+                    String scoreQuery = "SELECT Score FROM _" + id + " WHERE UUID = ?";
+                    try (PreparedStatement scoreStatement = connection.prepareStatement(scoreQuery)) {
+                        scoreStatement.setString(1, player.getUniqueId().toString());
+                        ResultSet scoreResultSet = scoreStatement.executeQuery();
+                        if (scoreResultSet.next()) {
+                            int score = scoreResultSet.getInt("Score");
+                            scores.put(id, score);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Log.error(e);
+        }
+
+        return scores;
+    }
+
+    @Override
+    public void saveCollectionScores(Player player, HashMap<String, Integer> scores) {
+        try (Connection connection = dataSource.getConnection()) {
+            for (String id : scores.keySet()) {
+                int score = scores.get(id);
+                String selectQuery = "SELECT * FROM _" + id + " WHERE UUID = ?";
+                try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+                    selectStatement.setString(1, player.getUniqueId().toString());
+                    ResultSet resultSet = selectStatement.executeQuery();
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE _" + id + " SET Score = ? WHERE UUID = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, score);
+                            updateStatement.setString(2, player.getUniqueId().toString());
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        String insertQuery = "INSERT INTO _" + id + " (UUID, Score) VALUES (?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, player.getUniqueId().toString());
+                            insertStatement.setInt(2, score);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Log.error(e);
+        }
     }
 
 

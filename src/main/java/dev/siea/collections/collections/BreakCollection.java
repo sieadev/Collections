@@ -103,4 +103,9 @@ public class BreakCollection implements Collection, Listener {
     public int getPlayerScore(Player player){
         return scores.getOrDefault(player, -1);
     }
+
+    @Override
+    public void setPlayerScore(Player player, int score) {
+        scores.put(player,score);
+    }
 }
