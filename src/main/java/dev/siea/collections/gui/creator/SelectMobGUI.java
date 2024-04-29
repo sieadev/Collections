@@ -3,6 +3,7 @@ package dev.siea.collections.gui.creator;
 import dev.siea.collections.creator.CreationManager;
 import dev.siea.collections.gui.GUI;
 import dev.siea.collections.gui.GUIWrapper;
+import dev.siea.collections.util.MobEggConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Mob;
@@ -25,10 +26,18 @@ public class SelectMobGUI implements GUI {
     public SelectMobGUI(Player player) {
         this.player = player;
         Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Collections Creator");
-        ItemStack global = createItem("§bGlobal", Material.BLUE_STAINED_GLASS);
-        inventory.setItem(12, global);
-        ItemStack invite = createItem("§eInvite only", Material.YELLOW_STAINED_GLASS);
-        inventory.setItem(14, invite);
+
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack glass = createItem(" ", Material.GRAY_STAINED_GLASS_PANE);
+            inventory.setItem(i, glass);
+        }
+
+        int slot = 8;
+        for (Mob mob : mobs.values()) {
+            ItemStack glass = createItem("§e" + mob.getName(), MobEggConverter.convertMobToEgg(mob));
+            inventory.setItem(slot++, glass);
+        }
+
         this.inventory = inventory;
     }
 

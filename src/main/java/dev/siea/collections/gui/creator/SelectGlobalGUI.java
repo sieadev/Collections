@@ -21,7 +21,7 @@ public class SelectGlobalGUI implements GUI {
 
     public SelectGlobalGUI(Player player) {
         this.player = player;
-        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Collections Creator");
+        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Global or Invite");
         ItemStack global = createItem("§bGlobal", Material.BLUE_STAINED_GLASS);
         inventory.setItem(12, global);
         ItemStack invite = createItem("§eInvite only", Material.YELLOW_STAINED_GLASS);

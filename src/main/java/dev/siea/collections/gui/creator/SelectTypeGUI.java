@@ -24,7 +24,7 @@ public class SelectTypeGUI implements GUI {
 
     public SelectTypeGUI(Player player) {
         this.player = player;
-        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Collections Creator");
+        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Type");
 
 
         for (int i = 0; i < inventory.getSize(); i++) {
