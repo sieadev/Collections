@@ -1,9 +1,7 @@
 package dev.siea.collections.gui;
 
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
-import dev.siea.collections.managers.Manager;
+import dev.siea.collections.creator.CreationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -13,29 +11,29 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import static dev.siea.collections.util.GUIUtil.createItem;
 import static dev.siea.collections.gui.GUIWrapper.tasks;
 import static dev.siea.collections.gui.GUIWrapper.icons;
 import static dev.siea.collections.gui.GUIWrapper.names;
 import static dev.siea.collections.gui.GUIWrapper.types;
 import static dev.siea.collections.gui.GUIWrapper.descriptions;
+import static dev.siea.collections.util.GUIUtil.createItem;
 
-public class CollectionsOverviewGUI implements GUI{
+public class CollectionsCreatorGUI implements GUI{
     private final Player player;
     private final Inventory inventory;
 
-    public CollectionsOverviewGUI(Player p) {
-        this.player = p;
+    public CollectionsCreatorGUI(Player player) {
+        this.player = player;
         Inventory inventory;
-        HashMap<String, Integer> scores = Manager.getPlayerScores(p);
-        if (scores.size() < 8) {
-            inventory = Bukkit.createInventory(null, 3 * 9, "Collections");
+        List<Integer> ids = (List<Integer>) tasks.keySet();
+
+        if (ids.size() < 8) {
+            inventory = Bukkit.createInventory(null, 4 * 9, "Collections Creator");
         }
         else {
-            inventory = Bukkit.createInventory(null, 5 * 9, "Collections");
+            inventory = Bukkit.createInventory(null, 6 * 9, "Collections Creator");
         }
 
         for (int i = 0; i < inventory.getSize(); i++) {
@@ -43,35 +41,36 @@ public class CollectionsOverviewGUI implements GUI{
             inventory.setItem(i, glass);
         }
 
-        if (scores.isEmpty()){
+        if (ids.isEmpty()){
             ItemStack empty = createItem("§cNothing here it seems...", Material.BARRIER);
             inventory.setItem(13, empty);
         }
 
         else{
             int slot = 10;
-            for (String key : scores.keySet()) {
+            for (Integer key : ids) {
                 if (slot == 17 || slot == 26|| slot == 35) {
                     slot = slot + 2;
                 }
                 List<String> description = new ArrayList<>();
-                int keyInt = Integer.parseInt(key);
-                Task task = tasks.get(keyInt);
-                description.add("§7" + descriptions.get(keyInt));
+                Task task = tasks.get(key);
+                description.add("§7" + descriptions.get(key));
                 description.add("§e§lTask:");
-                description.add("§aType - §6" + types.get(keyInt).name());
+                description.add("§aType - §6" + types.get(key).name());
                 Object target = task.getTarget();
                 if (target instanceof Material) {
                     description.add("§aBlock - §b" + target.toString().replace("_", " "));
                 } else if (target instanceof EntityType){
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
-                description.add("§aScore - §6" + scores.get(key));
-                ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
+
+                ItemStack collection = createItem("§f" + names.get(key), icons.get(key), description);
                 inventory.setItem(slot++, collection);
                 description.add("");
                 description.add("§e§mClick to view! §r§c§lComing Soon!");
             }
+            ItemStack create = createItem("§6" , Material.EMERALD_BLOCK, "§eClick to open the Creator");
+            inventory.setItem(inventory.getSize()-5, create);
         }
         this.inventory = inventory;
     }
@@ -79,15 +78,20 @@ public class CollectionsOverviewGUI implements GUI{
     @Override
     public void handleInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
+        int slot = e.getSlot();
+        if (slot == inventory.getSize()-5){
+            player.closeInventory();
+            CreationManager.enterCreator(player);
+        }
     }
 
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
     }
 
     @Override
     public Inventory getInventory() {
-        return null;
+        return inventory;
     }
 }

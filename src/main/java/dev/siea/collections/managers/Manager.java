@@ -80,6 +80,10 @@ public class Manager {
         return null;
     }
 
+    public static List<Collection> getCollections(){
+        return (List<Collection>) collections.values();
+    }
+
     public static void enable(Plugin plugin) {
         Manager.plugin = plugin;
         for (Collection collection : StorageManager.getCollections()){
@@ -87,10 +91,6 @@ public class Manager {
             plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
             GUIWrapper.addCollection(collection);
         }
-    }
-
-    public static void shutdown(){
-        //Save collections to storage
     }
 
     public static HashMap<String, Integer> getPlayerScores(Player player) {
