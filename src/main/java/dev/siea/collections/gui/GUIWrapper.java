@@ -8,6 +8,7 @@ import dev.siea.collections.gui.creator.SelectTypeGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -75,8 +76,15 @@ public class GUIWrapper implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGH)
     public void onInventoryClose(InventoryCloseEvent e) {
-        inventories.remove(e.getInventory());
+        GUI gui = inventories.get(e.getInventory());
+        if (gui != null) {
+            gui.handleInventoryClose(e);
+        }
+    }
+
+    public static void close(Inventory inventory){
+        inventories.remove(inventory);
     }
 }

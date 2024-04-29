@@ -3,9 +3,12 @@ package dev.siea.collections.creator;
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.gui.creator.SelectGlobalGUI;
+import dev.siea.collections.gui.creator.SelectMobGUI;
 import dev.siea.collections.gui.creator.SelectTypeGUI;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.material.SpawnEgg;
 
 import java.util.List;
 
@@ -53,7 +56,8 @@ public class Creation {
                 if (type == Type.BREAK || type == Type.PLACE || type == Type.DELIVER){
                     message = "§eAlright!Now, hold the target block and type: §6SELECT";
                 } else{
-                    message = "§eAlright!Now, hold the egg of the target-mob and type: §6SELECT";
+                    GUIWrapper.openGUI(player, SelectMobGUI.class);
+                    message = "";
                 }
             }
             case LEVEL -> {
@@ -77,10 +81,49 @@ public class Creation {
     }
 
     public void handleChatMessage(String message) {
-
+        switch (state){
+            case NAME -> {
+                name = message;
+                next();
+            }
+            case DESCRIPTION -> {
+                description = message;
+                next();
+            }
+            case TYPE -> {
+                return;
+            }
+            case TARGET -> {
+                if (!message.equalsIgnoreCase("select")){
+                    player.sendMessage("§cUnknown input. Did you mean §6SELECT§c?");
+                    return;
+                }
+                if (type == Type.BREAK || type == Type.PLACE || type == Type.DELIVER){
+                    if (player.getInventory().getItemInMainHand().getType() != Material.AIR){
+                        target = player.getInventory().getItemInMainHand().getType();
+                        next();
+                    }
+                    else{
+                        player.sendMessage("§cPlease hold an item in your main hand.");
+                    }
+                } else{
+                    return;
+                }
+            }
+            case LEVEL -> {
+                message = "§eSplendid, now type all level as their required score §7(eg. 10 30 50 100)";
+            }
+            case COMMANDS -> {
+                message = "§eAlmost there, enter all commands without the §b/ §e for level §b " + commandStage + " §e(and then type §6DONE§e)";
+            }
+            case GLOBAL -> {
+                message = "";
+            }
+            default -> message = "";
+        }
     }
 
-    public void handleInventoryClick(InventoryClickEvent event) {
+    public void handleInventoryClick(InventoryClickEvent event, Object object) {
 
     }
 

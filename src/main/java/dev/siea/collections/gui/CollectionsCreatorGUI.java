@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -83,6 +84,11 @@ public class CollectionsCreatorGUI implements GUI{
             player.closeInventory();
             CreationManager.enterCreator(player);
         }
+    }
+
+    @Override
+    public void handleInventoryClose(InventoryCloseEvent e) {
+        GUIWrapper.close(inventory);
     }
 
     @Override

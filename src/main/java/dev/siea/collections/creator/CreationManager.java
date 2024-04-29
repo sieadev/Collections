@@ -28,7 +28,7 @@ public class CreationManager implements Listener {
         creations.get(event.getPlayer()).handleChatMessage(event.getMessage());
     }
 
-    public static void handleInventoryClickEvent(InventoryClickEvent event) {
-        creations.get((Player) event.getWhoClicked()).handleInventoryClick(event);
+    public static void handleInventoryClickEvent(InventoryClickEvent event, Object object) {
+        creations.get((Player) event.getWhoClicked()).handleInventoryClick(event, object);
     }
 }
