@@ -68,10 +68,10 @@ public class CollectionsOverviewGUI implements GUI{
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
                 description.add("§aScore - §6" + scores.get(key));
-                ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
-                inventory.setItem(slot++, collection);
                 description.add("");
                 description.add("§e§mClick to view! §r§c§lComing Soon!");
+                ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
+                inventory.setItem(slot++, collection);
             }
         }
         this.inventory = inventory;
@@ -89,11 +89,11 @@ public class CollectionsOverviewGUI implements GUI{
 
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
     }
 
     @Override
     public Inventory getInventory() {
-        return null;
+        return inventory;
     }
 }

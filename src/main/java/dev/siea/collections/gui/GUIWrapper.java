@@ -3,7 +3,10 @@ package dev.siea.collections.gui;
 import dev.siea.collections.collections.Collection;
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.creator.Creation;
+import dev.siea.collections.gui.creator.BaseCreatorGUI;
 import dev.siea.collections.gui.creator.SelectGlobalGUI;
+import dev.siea.collections.gui.creator.SelectMobGUI;
 import dev.siea.collections.gui.creator.SelectTypeGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,14 +41,23 @@ public class GUIWrapper implements Listener {
             gui = new SelectTypeGUI(player);
         } else if (clazz.equals(SelectGlobalGUI.class)) {
             gui = new SelectGlobalGUI(player);
-        }
-        else {
+        } else if (clazz.equals(BaseCreatorGUI.class)) {
+            gui = new BaseCreatorGUI(player);
+        } else if (clazz.equals(SelectMobGUI.class)) {
+            gui = new SelectMobGUI(player);
+        } else {
             gui = null;
         }
         if (gui == null) {
             player.sendMessage("§cUnable to open GUI-Inventory...");
             return;
         }
+        inventories.put(gui.getInventory(), gui);
+        player.openInventory(gui.getInventory());
+    }
+
+    public static void openGUI(Player player, Creation creation) {
+        GUI gui = new BaseCreatorGUI(creation);
         inventories.put( gui.getInventory(), gui);
         player.openInventory(gui.getInventory());
     }

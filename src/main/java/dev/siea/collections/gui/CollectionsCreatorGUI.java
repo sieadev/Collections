@@ -28,7 +28,7 @@ public class CollectionsCreatorGUI implements GUI{
     public CollectionsCreatorGUI(Player player) {
         this.player = player;
         Inventory inventory;
-        List<Integer> ids = (List<Integer>) tasks.keySet();
+        List<Integer> ids = tasks.keySet().stream().toList();
 
         if (ids.size() < 8) {
             inventory = Bukkit.createInventory(null, 4 * 9, "Collections Creator");
@@ -64,13 +64,12 @@ public class CollectionsCreatorGUI implements GUI{
                 } else if (target instanceof EntityType){
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
-
-                ItemStack collection = createItem("§f" + names.get(key), icons.get(key), description);
-                inventory.setItem(slot++, collection);
                 description.add("");
                 description.add("§e§mClick to view! §r§c§lComing Soon!");
+                ItemStack collection = createItem("§f" + names.get(key), icons.get(key), description);
+                inventory.setItem(slot++, collection);
             }
-            ItemStack create = createItem("§6" , Material.EMERALD_BLOCK, "§eClick to open the Creator");
+            ItemStack create = createItem("§6Creator" , Material.EMERALD_BLOCK, "§eClick to open the Creator");
             inventory.setItem(inventory.getSize()-5, create);
         }
         this.inventory = inventory;

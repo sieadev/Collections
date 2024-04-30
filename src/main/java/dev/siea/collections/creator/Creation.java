@@ -1,78 +1,89 @@
 package dev.siea.collections.creator;
 
 import dev.siea.collections.collections.Type;
+import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.gui.GUIWrapper;
+import dev.siea.collections.gui.creator.BaseCreatorGUI;
 import dev.siea.collections.gui.creator.SelectGlobalGUI;
 import dev.siea.collections.gui.creator.SelectMobGUI;
 import dev.siea.collections.gui.creator.SelectTypeGUI;
+import dev.siea.collections.managers.Manager;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.material.SpawnEgg;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Creation {
     private final Player player;
     private String name;
     private String description;
-    private Type type;
-    private Object target;
-    private List<Integer> level;
-    private List<List<String>> commands;
-    private boolean global;
+    private Type type = null;
+    private Object target = null;
+    private List<Integer> level = new ArrayList<>();
+    private final List<List<String>> commands = new ArrayList<>();
+    private boolean global = true;
     private CreationState state;
     private int commandStage = 1;
+    private boolean finished = false;
 
     public Creation(Player player) {
         this.player = player;
-        state = CreationState.NAME;
-        messageInstructions();
+        GUIWrapper.openGUI(player, BaseCreatorGUI.class);
     }
 
-    private void next(){
-        state = upEnum(state);
-        messageInstructions();
+    private void openCreatorGUI(){
+        state = null;
+        GUIWrapper.openGUI(player, this);
     }
 
     private void finish() {
-
+        if (level.isEmpty()) level = generateLevels(5,3,2);
+        finished = true;
+        Manager.createCollection(type,name,description,commands,global,new Task(type,level));
+        player.closeInventory();
+        CreationManager.leaveCreator(player);
     }
 
-    private void messageInstructions(){
-        String message;
-        switch (state){
+    public void initializeState(CreationState state) {
+        this.state = state;
+        switch (state) {
             case NAME -> {
-                message = "§eChoose a name for your collection §7(formatting codes supported) :";
+                player.sendMessage("§eEnter the name into the chat §b(formating-codes supported)§e:");
+                player.closeInventory();
             }
             case DESCRIPTION -> {
-                message = "§ePerfect! Choose a description for §b"+ name + " §e:";
+                player.sendMessage("§eEnter the description into the chat §b(formating-codes supported)§e:");
+                player.closeInventory();
             }
-            case TYPE -> {
-                GUIWrapper.openGUI(player, SelectTypeGUI.class);
-                message = "";
-            }
+            case TYPE -> GUIWrapper.openGUI(player, SelectTypeGUI.class);
             case TARGET -> {
-                if (type == Type.BREAK || type == Type.PLACE || type == Type.DELIVER){
-                    message = "§eAlright!Now, hold the target block and type: §6SELECT";
-                } else{
+                if (type == null){
+                    openCreatorGUI();
+                }
+                if (target instanceof EntityType){
                     GUIWrapper.openGUI(player, SelectMobGUI.class);
-                    message = "";
+                }
+                else{
+                    player.sendMessage("§eHold the target item of the collection and type §6SELECT§e.");
                 }
             }
+            case GLOBAL -> GUIWrapper.openGUI(player, SelectGlobalGUI.class);
             case LEVEL -> {
-                message = "§eSplendid, now type all level as their required score §7(eg. 10 30 50 100)";
+                player.sendMessage("§eEnter all level you want to add identified by their require score §b(eg. 5 15 45)§e:");
+                player.closeInventory();
             }
             case COMMANDS -> {
-                message = "§eAlmost there, enter all commands without the §b/ §e for level §b " + commandStage + " §e(and then type §6DONE§e)";
+                if (level.isEmpty()){
+                    openCreatorGUI();
+                    return;
+                }
+                player.sendMessage("§eEnter a command you would like executed on level §b" + commandStage + "§e:");
+                player.closeInventory();
             }
-            case GLOBAL -> {
-                GUIWrapper.openGUI(player, SelectGlobalGUI.class);
-                message = "";
-            }
-            default -> message = "";
         }
-        player.sendMessage(message);
     }
 
 
@@ -81,14 +92,20 @@ public class Creation {
     }
 
     public void handleChatMessage(String message) {
+        message = message.replace("&","§");
+        if (message.equalsIgnoreCase("cancel")){
+            player.sendMessage("§cCancelling...");
+            openCreatorGUI();
+            return;
+        }
         switch (state){
             case NAME -> {
                 name = message;
-                next();
+                openCreatorGUI();
             }
             case DESCRIPTION -> {
                 description = message;
-                next();
+                openCreatorGUI();
             }
             case TYPE -> {
                 return;
@@ -101,7 +118,7 @@ public class Creation {
                 if (type == Type.BREAK || type == Type.PLACE || type == Type.DELIVER){
                     if (player.getInventory().getItemInMainHand().getType() != Material.AIR){
                         target = player.getInventory().getItemInMainHand().getType();
-                        next();
+                        openCreatorGUI();
                     }
                     else{
                         player.sendMessage("§cPlease hold an item in your main hand.");
@@ -111,33 +128,99 @@ public class Creation {
                 }
             }
             case LEVEL -> {
-                message = "§eSplendid, now type all level as their required score §7(eg. 10 30 50 100)";
+                List<Integer> level = new ArrayList<>();
+                String[] words=message.split("\\s");
+                for (String word : words){
+                    int l;
+                    try{
+                        l = Integer.parseInt(word);
+                        level.add(l);
+                    } catch (NumberFormatException e){
+                        player.sendMessage("§cUnable to process levels. §c(eg. §65 15 45§c)");
+                        return;
+                    }
+                }
+                this.level = level;
+                openCreatorGUI();
             }
             case COMMANDS -> {
-                message = "§eAlmost there, enter all commands without the §b/ §e for level §b " + commandStage + " §e(and then type §6DONE§e)";
+                commands.add(Collections.singletonList(message.replace("/" , "")));
+                if (commandStage >= level.size()){
+                    openCreatorGUI();
+                }
+                else{
+                    commandStage++;
+                    player.sendMessage("§eEnter a command you would like executed on level §b" + commandStage + "§e:");
+                }
             }
             case GLOBAL -> {
-                message = "";
+                break;
             }
-            default -> message = "";
         }
     }
 
-    public void handleInventoryClick(InventoryClickEvent event, Object object) {
-
+    public void handleInventoryClick(CreationState state, Object object) {
+        switch (state){
+            case TYPE -> type = (Type) object;
+            case GLOBAL -> global = (boolean) object;
+            case TARGET -> target = object;
+            case FINISH -> finish();
+        }
     }
 
-    public CreationState upEnum(CreationState currentStatus) {
-        CreationState[] statuses = CreationState.values();
-        int currentIndex = currentStatus.ordinal();
-        int nextIndex = (currentIndex + 1) % statuses.length;
-        return statuses[nextIndex];
+    public Player getPlayer() {
+        return player;
     }
 
-    public CreationState downEnum(CreationState currentStatus) {
-        CreationState[] statuses = CreationState.values();
-        int currentIndex = currentStatus.ordinal();
-        int previousIndex = (currentIndex - 1 + statuses.length) % statuses.length;
-        return statuses[previousIndex];
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Object getTarget() {
+        return target;
+    }
+
+    public List<Integer> getLevel() {
+        return level;
+    }
+
+    public List<List<String>> getCommands() {
+        return commands;
+    }
+
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public CreationState getState() {
+        return state;
+    }
+
+    public int getCommandStage() {
+        return commandStage;
+    }
+
+    private List<Integer> generateLevels(int startingIndex, int levelAmount, double levelMultiplier) {
+        List<Integer> levels = new ArrayList<>();
+        double currentValue = startingIndex;
+        for (int i = 0; i < levelAmount; i++) {
+            levels.add((int) currentValue);
+            currentValue *= levelMultiplier;
+        }
+        return levels;
+    }
+
+    public void finishOrLeave() {
+        if (!finished) {
+            cancel();
+        }
     }
 }

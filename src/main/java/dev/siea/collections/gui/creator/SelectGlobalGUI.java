@@ -2,6 +2,7 @@ package dev.siea.collections.gui.creator;
 
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.creator.CreationManager;
+import dev.siea.collections.creator.CreationState;
 import dev.siea.collections.gui.GUI;
 import dev.siea.collections.gui.GUIWrapper;
 import org.bukkit.Bukkit;
@@ -22,9 +23,9 @@ public class SelectGlobalGUI implements GUI {
     public SelectGlobalGUI(Player player) {
         this.player = player;
         Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Global or Invite");
-        ItemStack global = createItem("§bGlobal", Material.BLUE_STAINED_GLASS);
+        ItemStack global = createItem("§bGlobal", Material.GREEN_STAINED_GLASS);
         inventory.setItem(12, global);
-        ItemStack invite = createItem("§eInvite only", Material.YELLOW_STAINED_GLASS);
+        ItemStack invite = createItem("§eInvite only", Material.RED_STAINED_GLASS);
         inventory.setItem(14, invite);
         this.inventory = inventory;
     }
@@ -33,21 +34,21 @@ public class SelectGlobalGUI implements GUI {
     public void handleInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
         if (e.getSlot() == 12 || e.getSlot() == 14) {
+            picked = true;
             if (e.getSlot() == 12){
-                CreationManager.handleInventoryClickEvent(e, true);
+                CreationManager.handleInventoryClickEvent(player, CreationState.GLOBAL, true);
             }
             else{
-                CreationManager.handleInventoryClickEvent(e, false);
+                CreationManager.handleInventoryClickEvent(player, CreationState.GLOBAL, false);
             }
-            picked = true;
-            e.getWhoClicked().closeInventory();
         }
     }
 
     @Override
     public void handleInventoryClose(InventoryCloseEvent e) {
         if (!picked){
-            e.getPlayer().openInventory(inventory);
+            CreationManager.leaveCreator(player);
+            GUIWrapper.close(inventory);
         }
         else{
             GUIWrapper.close(inventory);

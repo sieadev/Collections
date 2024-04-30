@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface Storage {
-    public List<Collection> getCollections();
+    List<Collection> getCollections();
 
     int saveCollection(Collection collection);
 
-    public HashMap<String, Integer> getCollectionScores(Player player);
+    HashMap<String, Integer> getCollectionScores(Player player);
 
     void saveCollectionScores(Player player, HashMap<String, Integer> scores);
 

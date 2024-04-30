@@ -2,6 +2,7 @@ package dev.siea.collections.gui.creator;
 
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.creator.CreationManager;
+import dev.siea.collections.creator.CreationState;
 import dev.siea.collections.gui.GUI;
 import dev.siea.collections.gui.GUIWrapper;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class SelectTypeGUI implements GUI {
 
     public SelectTypeGUI(Player player) {
         this.player = player;
-        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Type");
+        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Select a Type");
 
 
         for (int i = 0; i < inventory.getSize(); i++) {
@@ -60,16 +61,16 @@ public class SelectTypeGUI implements GUI {
     public void handleInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
         if (types.containsKey(e.getSlot())) {
-            CreationManager.handleInventoryClickEvent(e,types.get(e.getSlot()));
             picked = true;
-            e.getWhoClicked().closeInventory();
+            CreationManager.handleInventoryClickEvent(player, CreationState.TYPE,types.get(e.getSlot()));
         }
     }
 
     @Override
     public void handleInventoryClose(InventoryCloseEvent e) {
         if (!picked){
-            e.getPlayer().openInventory(inventory);
+            CreationManager.leaveCreator(player);
+            GUIWrapper.close(inventory);
         }
         else{
             GUIWrapper.close(inventory);

@@ -44,6 +44,33 @@ public class Manager {
         return collection;
     }
 
+    public static Collection createCollection(Type type, String name, String description,  List<List<String>> rewards, boolean global, Task task){
+        Collection collection;
+        switch (type){
+            case KILL:
+                collection = new KillCollection(name, description, rewards, global, task);
+                break;
+            case BREAK:
+                collection = new BreakCollection(name, description, rewards, global, task);
+                break;
+            case BREED:
+                collection = new BreedCollection(name, description, rewards, global, task);
+                break;
+            case PLACE:
+                collection = new PlaceCollection(name, description, rewards, global, task);
+                break;
+            case DELIVER:
+                collection = new DeliverCollection(name, description, rewards, global, task);
+                break;
+            default:
+                return null;
+        }
+        collections.put(collection.getID(), collection);
+        plugin.getServer().getPluginManager().registerEvents((Listener) collection, plugin);
+        GUIWrapper.addCollection(collection);
+        return collection;
+    }
+
     public static Collection createCollection(Type type, String name, String description, List<List<String>> rewards, Object target, boolean global, int level, int startingIndex, double multiplier){
         Collection collection;
         switch (type){
