@@ -65,7 +65,7 @@ public class CollectionsCreatorGUI implements GUI{
                     description.add("§aTarget - §c" + target.toString().replace("_", " "));
                 }
                 description.add("");
-                description.add("§e§mClick to view! §r§c§lComing Soon!");
+                description.add("§e§mClick to view!§r §c§lComing Soon!");
                 ItemStack collection = createItem("§f" + names.get(key), icons.get(key), description);
                 inventory.setItem(slot++, collection);
             }

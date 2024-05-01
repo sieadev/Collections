@@ -50,8 +50,9 @@ public class SelectTypeGUI implements GUI {
                 slot = slot + 2;
             }
             ItemStack collection = createItem("§f" + type.getDisplayName(), type.getIcon());
-            inventory.setItem(slot++, collection);
+            inventory.setItem(slot, collection);
             types.put(slot, type);
+            slot++;
         }
 
         this.inventory = inventory;

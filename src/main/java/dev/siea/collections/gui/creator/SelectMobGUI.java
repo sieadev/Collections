@@ -27,14 +27,14 @@ public class SelectMobGUI implements GUI {
 
     public SelectMobGUI(Player player) {
         this.player = player;
-        Inventory inventory = Bukkit.createInventory(null, 3 * 9, "Select a mob");
+        Inventory inventory = Bukkit.createInventory(null, 6 * 9, "Select a mob");
 
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack glass = createItem(" ", Material.GRAY_STAINED_GLASS_PANE);
             inventory.setItem(i, glass);
         }
 
-        int slot = 8;
+        int slot = 0;
 
         for (EntityType m : EntityType.values()) {
             try{

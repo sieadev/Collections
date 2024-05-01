@@ -44,6 +44,7 @@ public class Creation {
         finished = true;
         Manager.createCollection(type,name,description,commands,global,new Task(type,level));
         player.closeInventory();
+        player.sendMessage("§eSuccessfully created §b" + name + "§e collection.");
         CreationManager.leaveCreator(player);
     }
 
@@ -63,11 +64,12 @@ public class Creation {
                 if (type == null){
                     openCreatorGUI();
                 }
-                if (target instanceof EntityType){
+                else if (type == Type.KILL || type == Type.BREED){
                     GUIWrapper.openGUI(player, SelectMobGUI.class);
                 }
                 else{
                     player.sendMessage("§eHold the target item of the collection and type §6SELECT§e.");
+                    player.closeInventory();
                 }
             }
             case GLOBAL -> GUIWrapper.openGUI(player, SelectGlobalGUI.class);
@@ -98,6 +100,7 @@ public class Creation {
             openCreatorGUI();
             return;
         }
+        message = "§7" + message;
         switch (state){
             case NAME -> {
                 name = message;
@@ -156,14 +159,24 @@ public class Creation {
             case GLOBAL -> {
                 break;
             }
+            case FINISH -> finish();
         }
     }
 
     public void handleInventoryClick(CreationState state, Object object) {
         switch (state){
-            case TYPE -> type = (Type) object;
-            case GLOBAL -> global = (boolean) object;
-            case TARGET -> target = object;
+            case TYPE -> {
+                type = (Type) object;
+                openCreatorGUI();
+            }
+            case GLOBAL -> {
+                global = (boolean) object;
+                openCreatorGUI();
+            }
+            case TARGET -> {
+                target = object;
+                openCreatorGUI();
+            }
             case FINISH -> finish();
         }
     }

@@ -114,13 +114,13 @@ public class BaseCreatorGUI implements GUI {
         if (type == null) typeButton = createItem("§eType", CreationState.TYPE.getIcon());
         else {
             typeButton = createItem("§eType",type.getIcon());
-            buttons.put(12, CreationState.TYPE);
         }
         inventory.setItem(12, typeButton);
+        buttons.put(12, CreationState.TYPE);
 
         //Target
         ItemStack targetButton;
-        if (target == null) targetButton = createItem("§eTarget", CreationState.TYPE.getIcon());
+        if (target == null) targetButton = createItem("§eTarget", CreationState.TARGET.getIcon());
         else {
             if (target instanceof EntityType) {
                 targetButton = createItem("§eTarget", MobEggConverter.convertMobToEgg((EntityType) target));
@@ -193,9 +193,9 @@ public class BaseCreatorGUI implements GUI {
         }
 
         //Not required
-        options.put(CreationState.GLOBAL, false);
-        options.put(CreationState.COMMANDS, commands.isEmpty());
-        options.put(CreationState.LEVEL, level.isEmpty());
+        options.put(CreationState.GLOBAL, true);
+        options.put(CreationState.COMMANDS, !commands.isEmpty());
+        options.put(CreationState.LEVEL, !level.isEmpty());
 
         List<String> description = new ArrayList<>();
         if (missing > 0) {

@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 public enum CreationState {
     NAME(Material.NAME_TAG, "§eName"),
-    DESCRIPTION(Material.NAME_TAG, "§eDescription"),
+    DESCRIPTION(Material.PAPER, "§eDescription"),
     TYPE(Material.BARREL, "§eType"),
     TARGET(Material.TARGET, "§eTarget"),
     LEVEL(Material.EXPERIENCE_BOTTLE, "§eLevel"),

@@ -69,7 +69,7 @@ public class CollectionsOverviewGUI implements GUI{
                 }
                 description.add("§aScore - §6" + scores.get(key));
                 description.add("");
-                description.add("§e§mClick to view! §r§c§lComing Soon!");
+                description.add("§e§mClick to view!§r §c§lComing Soon!");
                 ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
                 inventory.setItem(slot++, collection);
             }
