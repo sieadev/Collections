@@ -4,6 +4,7 @@ import dev.siea.collections.collections.Collection;
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.managers.Manager;
+import dev.siea.collections.util.LevelUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -60,14 +61,25 @@ public class CollectionsOverviewGUI implements GUI{
                 Task task = tasks.get(keyInt);
                 description.add("§7" + descriptions.get(keyInt));
                 description.add("§e§lTask:");
-                description.add("§aType - §6" + types.get(keyInt).name());
                 Object target = task.getTarget();
-                if (target instanceof Material) {
-                    description.add("§aBlock - §b" + target.toString().replace("_", " "));
-                } else if (target instanceof EntityType){
-                    description.add("§aTarget - §c" + target.toString().replace("_", " "));
+                int currentScore = scores.get(key);
+                int nextLevel = LevelUtil.getNextLevel(task, scores.get(key));
+                int requiredScore = LevelUtil.getScoreToNextLevel(task, scores.get(key));
+
+                if (nextLevel > 0) {
+                    description.add("§7" + types.get(keyInt).getDisplayName() + " §e§l" + target.toString().replace("_", " ") + "S§e (" + currentScore + "/" + requiredScore + ")");
+                } else{
+                    description.add("§7" + types.get(keyInt).getDisplayName() + " §e§l" + target.toString().replace("_", " ") + "S§e");
                 }
-                description.add("§aScore - §6" + scores.get(key));
+
+                try{
+                    int percent = (int) LevelUtil.getPercentToLevel(task, currentScore, nextLevel);
+                    description.add("§e " + (nextLevel - 1) + " §l➡ §e" + nextLevel + " (" + percent + "%)");
+                } catch (Exception e){
+                    description.add("§e" + task.getLevel().size() + " MAXXED" );
+                }
+
+
                 description.add("");
                 description.add("§e§mClick to view!§r §c§lComing Soon!");
                 ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);

@@ -1,8 +1,13 @@
-levelUp: "&6&lCongratulations! &eYou reached Level &6&l%level% &ein &a%collection%!"
+# Collection notifications
+levelUp: "&eCollection level up! %previousLevel% ➡ %newLevel%"
 unlocked: "&6Hey There! &eYou unlocked the &a%collection% &ecollection"
-leftCreation: "§cYou left the collection creator"
-notAPlayer: "§cYou must be a player to use this command"
 
 # Command descriptions
-overviewCommand: "View your active collections"
-createCommand: "Open the collections creator page"
+overviewCommand: "§7View your active collections"
+createCommand: "§7Open the collections creator page"
+
+# Administration
+leftCreation: "&cYou left the collection creator"
+
+# Errors
+notAPlayer: "&cYou must be a player to use this command"

@@ -8,6 +8,7 @@ import dev.siea.collections.gui.creator.SelectGlobalGUI;
 import dev.siea.collections.gui.creator.SelectMobGUI;
 import dev.siea.collections.gui.creator.SelectTypeGUI;
 import dev.siea.collections.managers.Manager;
+import dev.siea.collections.messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -40,10 +41,10 @@ public class Creation {
     }
 
     private void finish() {
+        player.closeInventory();
         if (level.isEmpty()) level = generateLevels(5,3,2);
         finished = true;
         Manager.createCollection(type,name,description,commands,global,new Task(type,level));
-        player.closeInventory();
         player.sendMessage("§eSuccessfully created §b" + name + "§e collection.");
         CreationManager.leaveCreator(player);
     }
@@ -90,7 +91,7 @@ public class Creation {
 
 
     public void cancel() {
-        player.sendMessage("§cYou left the collection creator");
+        player.sendMessage(Messages.get("leftCreation"));
     }
 
     public void handleChatMessage(String message) {
@@ -100,13 +101,15 @@ public class Creation {
             openCreatorGUI();
             return;
         }
-        message = "§7" + message;
+
         switch (state){
             case NAME -> {
+                message = "§7" + message;
                 name = message;
                 openCreatorGUI();
             }
             case DESCRIPTION -> {
+                message = "§7" + message;
                 description = message;
                 openCreatorGUI();
             }
@@ -132,11 +135,10 @@ public class Creation {
             }
             case LEVEL -> {
                 List<Integer> level = new ArrayList<>();
-                String[] words=message.split("\\s");
+                String[] words =message.split("\\s");
                 for (String word : words){
-                    int l;
                     try{
-                        l = Integer.parseInt(word);
+                        int l = Integer.parseInt(word);
                         level.add(l);
                     } catch (NumberFormatException e){
                         player.sendMessage("§cUnable to process levels. §c(eg. §65 15 45§c)");
