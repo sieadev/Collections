@@ -2,6 +2,7 @@ package dev.siea.collections.messages;
 
 import dev.siea.collections.Collections;
 import dev.siea.collections.util.ConfigUtil;
+import dev.siea.collections.util.RomanConverter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
@@ -14,6 +15,7 @@ public class Messages {
 
     public static void onEnable(Plugin plugin){
         Messages.plugin = plugin;
+        RomanConverter.init(configUtil.getBoolean("useRomanNumerals"));
     }
     public static String get(String key) {
         return messages.computeIfAbsent(key, Messages::retrieveMessageFromConfig);

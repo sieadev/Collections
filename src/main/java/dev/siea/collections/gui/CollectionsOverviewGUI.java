@@ -5,6 +5,8 @@ import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.util.LevelUtil;
+import dev.siea.collections.util.RomanConverter;
+import dev.siea.collections.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -63,17 +65,16 @@ public class CollectionsOverviewGUI implements GUI{
                 description.add("§e§lTask:");
                 Object target = task.getTarget();
                 int currentScore = scores.get(key);
-                int nextLevel = LevelUtil.getNextLevel(task, scores.get(key));
-                int requiredScore = LevelUtil.getScoreToNextLevel(task, scores.get(key));
+                int nextLevel = LevelUtil.getNextLevel(task, currentScore);
+                int currentLevel = LevelUtil.getCurrentLevel(task, currentScore);
+                int requiredScore = LevelUtil.getScoreToNextLevel(task, currentScore);
 
                 if (nextLevel > 0) {
-                    description.add("§7" + types.get(keyInt).getDisplayName() + " §e§l" + target.toString().replace("_", " ") + "S§e (" + currentScore + "/" + requiredScore + ")");
-                } else{
-                    description.add("§7" + types.get(keyInt).getDisplayName() + " §e§l" + target.toString().replace("_", " ") + "S§e");
+                    int percent = (int) LevelUtil.getPercentToLevel(task, currentScore, nextLevel);
+                    description.add("§7Progress to " + StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
                 }
 
                 try{
-                    int percent = (int) LevelUtil.getPercentToLevel(task, currentScore, nextLevel);
                     description.add("§e " + (nextLevel - 1) + " §l➡ §e" + nextLevel + " (" + percent + "%)");
                 } catch (Exception e){
                     description.add("§e" + task.getLevel().size() + " MAXXED" );
@@ -82,7 +83,7 @@ public class CollectionsOverviewGUI implements GUI{
 
                 description.add("");
                 description.add("§e§mClick to view!§r §c§lComing Soon!");
-                ItemStack collection = createItem("§f" + names.get(keyInt), icons.get(keyInt), description);
+                ItemStack collection = createItem("§f" + names.get(keyInt) + " §e" + RomanConverter.toRoman(currentLevel), icons.get(keyInt), description);
                 inventory.setItem(slot++, collection);
             }
         }

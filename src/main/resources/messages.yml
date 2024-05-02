@@ -1,4 +1,7 @@
-# Collection notifications
+# Special
+useRomanNumerals: true
+
+#Collection notifications
 levelUp: "&eCollection level up! %previousLevel% ➡ %newLevel%"
 unlocked: "&6Hey There! &eYou unlocked the &a%collection% &ecollection"
 
