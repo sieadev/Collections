@@ -61,7 +61,8 @@ public class LevelUtil {
     }
 
     public static double getPercentToLevel(double currentScore, double requiredScore) {
-        return (int) ((currentScore / requiredScore) * 100);
+        int percent = (int) ((currentScore / requiredScore) * 100);
+        return Math.min(percent, 100);
     }
 
     public static int getCurrentLevel(Task task, int currentScore) {

@@ -73,9 +73,9 @@ public class CollectionSelectedGUI  implements GUI{
             desc.add("§7Progress to " + names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter) + ": §e" + percent + "§6%");
             desc.add(LevelUtil.generateBar(score, scoreForLevel));
             if (score >= scoreForLevel){
-                level = createItem(StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(levelCounter), Material.GREEN_STAINED_GLASS_PANE, desc);
+                level = createItem(names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter), Material.GREEN_STAINED_GLASS_PANE, desc);
             } else{
-                level = createItem(StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(levelCounter), Material.RED_STAINED_GLASS_PANE, desc);
+                level = createItem(names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter), Material.RED_STAINED_GLASS_PANE, desc);
             }
             inventory.setItem(slot, level);
             slot++;
