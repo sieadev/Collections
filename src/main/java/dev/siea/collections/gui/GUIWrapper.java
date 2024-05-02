@@ -45,7 +45,8 @@ public class GUIWrapper implements Listener {
             gui = new BaseCreatorGUI(player);
         } else if (clazz.equals(SelectMobGUI.class)) {
             gui = new SelectMobGUI(player);
-        } else {
+        }
+        else {
             gui = null;
         }
         if (gui == null) {
@@ -58,6 +59,12 @@ public class GUIWrapper implements Listener {
 
     public static void openGUI(Player player, Creation creation) {
         GUI gui = new BaseCreatorGUI(creation);
+        inventories.put( gui.getInventory(), gui);
+        player.openInventory(gui.getInventory());
+    }
+
+    public static void openGUI(Player player, int id, int score) {
+        GUI gui = new CollectionSelectedGUI(player,id,score);
         inventories.put( gui.getInventory(), gui);
         player.openInventory(gui.getInventory());
     }

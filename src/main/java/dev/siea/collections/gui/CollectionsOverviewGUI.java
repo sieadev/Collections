@@ -3,6 +3,7 @@ package dev.siea.collections.gui;
 import dev.siea.collections.collections.Collection;
 import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.creator.CreationState;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.util.LevelUtil;
 import dev.siea.collections.util.RomanConverter;
@@ -24,17 +25,18 @@ import static dev.siea.collections.util.GUIUtil.createItem;
 import static dev.siea.collections.gui.GUIWrapper.tasks;
 import static dev.siea.collections.gui.GUIWrapper.icons;
 import static dev.siea.collections.gui.GUIWrapper.names;
-import static dev.siea.collections.gui.GUIWrapper.types;
 import static dev.siea.collections.gui.GUIWrapper.descriptions;
 
 public class CollectionsOverviewGUI implements GUI{
     private final Player player;
     private final Inventory inventory;
+    private final HashMap<Integer, Integer> buttons = new HashMap<>();
+    private final HashMap<String, Integer> scores;
 
     public CollectionsOverviewGUI(Player p) {
         this.player = p;
         Inventory inventory;
-        HashMap<String, Integer> scores = Manager.getPlayerScores(p);
+        scores = Manager.getPlayerScores(p);
         if (scores.size() < 8) {
             inventory = Bukkit.createInventory(null, 3 * 9, "Collections");
         }
@@ -62,23 +64,35 @@ public class CollectionsOverviewGUI implements GUI{
                 int keyInt = Integer.parseInt(key);
                 Task task = tasks.get(keyInt);
                 description.add("§7" + descriptions.get(keyInt));
-                description.add("§e§lTask:");
                 Object target = task.getTarget();
                 int currentScore = scores.get(key);
                 int nextLevel = LevelUtil.getNextLevel(task, currentScore);
                 int currentLevel = LevelUtil.getCurrentLevel(task, currentScore);
-                int requiredScore = LevelUtil.getScoreToNextLevel(task, currentScore);
+                int requiredScore = LevelUtil.getScoreToNextLevel(task, currentScore, nextLevel);
+
+                StringBuilder name = new StringBuilder().append("§f§e").append(names.get(keyInt));
 
                 if (nextLevel > 0) {
-                    int percent = (int) LevelUtil.getPercentToLevel(task, currentScore, nextLevel);
-                    description.add("§7Progress to " + StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
+                    name.append(" ").append(RomanConverter.toRoman(currentLevel));
+                    description.add("");
+                    int percent = (int) LevelUtil.getPercentToLevel(currentScore, requiredScore);
+                    description.add("§7Progress to " + name + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
+                    description.add(LevelUtil.generateBar(currentScore, requiredScore));
+                }
+                else{
+                    name.append(" ").append("§aCOMPLETE");
                 }
 
                 description.add("");
-                description.add("§e§mClick to view!§r §c§lComing Soon!");
-                ItemStack collection = createItem("§f" + names.get(keyInt) + " §e" + RomanConverter.toRoman(currentLevel), icons.get(keyInt), description);
-                inventory.setItem(slot++, collection);
+                description.add("§eClick to view!");
+                ItemStack collection = createItem(name.toString(), icons.get(keyInt), description);
+                inventory.setItem(slot, collection);
+                buttons.put(slot,keyInt);
+                slot++;
             }
+
+            ItemStack close = createItem("§cClose", Material.BARRIER);
+            inventory.setItem(inventory.getSize()-5, close);
         }
         this.inventory = inventory;
     }
@@ -86,6 +100,15 @@ public class CollectionsOverviewGUI implements GUI{
     @Override
     public void handleInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
+        if (buttons.containsKey(e.getSlot())) {
+            int id = buttons.get(e.getSlot());
+            GUIWrapper.close(inventory);
+            GUIWrapper.openGUI(player,id, scores.get(String.valueOf(id)));
+        }
+        else if (e.getSlot() == inventory.getSize()-5) {
+            GUIWrapper.close(inventory);
+            e.getWhoClicked().closeInventory();
+        }
     }
 
     @Override

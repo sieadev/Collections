@@ -7,6 +7,7 @@ import dev.siea.collections.listeners.PlayerConnectionListeners;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.messages.Messages;
 import dev.siea.collections.storage.StorageManager;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,12 +17,20 @@ public final class Collections extends JavaPlugin {
     private static Plugin plugin;
     @Override
     public void onEnable() {
+
+        for (Player player : getServer().getOnlinePlayers()) {
+            player.kickPlayer("§e[CollectionsX]: reloading scores...");
+        }
+
         //Save config files
         saveDefaultConfig();
         saveResource("messages.yml", false);
 
         plugin = this;
         StorageManager.init(this);
+
+        if (!isEnabled()) return;
+
         Messages.onEnable(this);
         Manager.enable(this);
         getServer().getPluginManager().registerEvents(new GUIWrapper(),this);

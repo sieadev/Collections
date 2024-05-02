@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public class Log {
     public static void error(Exception e) {
-        Collections.getPlugin().getLogger().severe("An Error occurred: " + e);
+        //Collections.getPlugin().getLogger().severe("An Error occurred: " + e);
     }
 
     public static void str(String s) {
-        Collections.getPlugin().getLogger().severe(s);
+        //Collections.getPlugin().getLogger().severe(s);
     }
 }

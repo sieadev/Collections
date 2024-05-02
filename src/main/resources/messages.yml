@@ -2,7 +2,8 @@
 useRomanNumerals: true
 
 #Collection notifications
-levelUp: "&eCollection level up! %previousLevel% ➡ %newLevel%"
+complete: "&e%collection% §a§lCOMPLETE&e! %previousLevel% ➡ %newLevel%"
+levelUp: "&e%collection% level up! %previousLevel% ➡ %newLevel%"
 unlocked: "&6Hey There! &eYou unlocked the &a%collection% &ecollection"
 
 # Command descriptions

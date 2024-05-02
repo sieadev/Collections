@@ -80,6 +80,7 @@ public class CollectionsCreatorGUI implements GUI{
         e.setCancelled(true);
         int slot = e.getSlot();
         if (slot == inventory.getSize()-5){
+            GUIWrapper.close(inventory);
             player.closeInventory();
             CreationManager.enterCreator(player);
         }

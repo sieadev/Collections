@@ -28,15 +28,17 @@ public class LevelUtil {
             }
         }
 
-        if (currentLevel != -1) {
+        if (currentLevel == level.size()) {
+            player.sendMessage(Messages.get("complete").replace("%newLevel%", String.valueOf(currentLevel)).replace("%collection%", collection.getName()).replace("%previousLevel%", String.valueOf(currentLevel - 1)));
+        }
+        else if (currentLevel != -1) {
             try{
                 List<List<String>> commands = collection.getCommands();
                 List<String> command = commands.get(currentLevel-1);
                 for (String cmd : command){
                     Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin().getServer().getConsoleSender(), cmd);
                 }
-            } catch (Exception e){
-                System.out.println("Unable to execute command for " + player.getName());
+            } catch (Exception ignore){
             }
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             player.sendMessage(Messages.get("levelUp").replace("%newLevel%", String.valueOf(currentLevel)).replace("%collection%", collection.getName()).replace("%previousLevel%", String.valueOf(currentLevel - 1)));
@@ -44,41 +46,22 @@ public class LevelUtil {
     }
 
     public static int getNextLevel(Task task, int score) {
-        int nextLevel = -1;
-        List<Integer> level = task.getLevel();
-        for (Integer integer : level) {
-            if (score < integer) {
-                nextLevel = integer;
-                break;
-            }
-        }
-        return nextLevel;
+        int currentLevel = getCurrentLevel(task,score);
+        if (task.getLevel().size() > currentLevel) return currentLevel+1;
+        else return -1;
     }
 
-    public static int getScoreToNextLevel(Task task, int score) {
-        int nextLevelScore = getNextLevel(task, score);
-        if (nextLevelScore == -1) {
+    public static int getScoreToNextLevel(Task task, int score, int level) {
+        int nextLevel = getNextLevel(task, score);
+        if (nextLevel == -1) {
             return 0;
         } else {
-            return nextLevelScore - score;
+            return task.getLevel().get(nextLevel-1);
         }
     }
 
-    public static double getPercentToLevel(Task task, int currentScore, int targetLevel) {
-        List<Integer> levels = task.getLevel();
-        if (targetLevel <= 0 || targetLevel > levels.size()) {
-            throw new IllegalArgumentException("Invalid target level: " + targetLevel);
-        }
-
-        int targetScore = levels.get(targetLevel - 1);
-        if (currentScore >= targetScore) {
-            return 100.0;
-        } else {
-            int previousLevelScore = (targetLevel > 1) ? levels.get(targetLevel - 2) : 0;
-            int scoreNeeded = targetScore - previousLevelScore;
-            int scoreProgress = currentScore - previousLevelScore;
-            return (double) scoreProgress / scoreNeeded * 100.0;
-        }
+    public static double getPercentToLevel(double currentScore, double requiredScore) {
+        return (int) ((currentScore / requiredScore) * 100);
     }
 
     public static int getCurrentLevel(Task task, int currentScore) {
@@ -94,27 +77,26 @@ public class LevelUtil {
         return currentLevel;
     }
 
-    public String generateBar(int currentScore, int requiredScore) {
-        int totalLength = 10;
+    public static String generateBar(int currentScore, int requiredScore) {
+        int totalLength = 35;
         return getBar(currentScore, requiredScore, totalLength);
     }
 
 
-
-    public String generateBar(int currentScore, int requiredScore, int length) {
+    public static String generateBar(int currentScore, int requiredScore, int length) {
         return getBar(currentScore, requiredScore, length);
     }
 
     @NotNull
-    private String getBar(double currentScore, int requiredScore, int totalLength) {
+    private static String getBar(double currentScore, int requiredScore, int totalLength) {
         double percentFilled = currentScore / requiredScore;
         int filledLength = (int) (totalLength * percentFilled);
         StringBuilder bar = new StringBuilder();
         for (int i = 0; i < totalLength; i++) {
-            if (i < filledLength) {
-                bar.append("§a█");
+            if (i <= filledLength) {
+                bar.append("§a§m ");
             } else {
-                bar.append(" ");
+                bar.append("§e§m ");
             }
         }
         return bar.toString();

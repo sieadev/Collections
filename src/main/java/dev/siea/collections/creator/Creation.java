@@ -44,7 +44,7 @@ public class Creation {
         player.closeInventory();
         if (level.isEmpty()) level = generateLevels(5,3,2);
         finished = true;
-        Manager.createCollection(type,name,description,commands,global,new Task(type,level));
+        Manager.createCollection(type,name,description,commands,global,new Task(target,level));
         player.sendMessage("§eSuccessfully created §b" + name + "§e collection.");
         CreationManager.leaveCreator(player);
     }
@@ -86,6 +86,7 @@ public class Creation {
                 player.sendMessage("§eEnter a command you would like executed on level §b" + commandStage + "§e:");
                 player.closeInventory();
             }
+            case FINISH -> finish();
         }
     }
 
@@ -179,7 +180,6 @@ public class Creation {
                 target = object;
                 openCreatorGUI();
             }
-            case FINISH -> finish();
         }
     }
 

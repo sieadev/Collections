@@ -24,6 +24,9 @@ public class RomanConverter {
 
     public static String toRoman(int number) {
         if (ignore) return String.valueOf(number);
+        if (number < map.firstKey()) {
+            return "";
+        }
         int l =  map.floorKey(number);
         if ( number == l ) {
             return map.get(number);
