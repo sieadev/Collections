@@ -74,13 +74,6 @@ public class CollectionsOverviewGUI implements GUI{
                     description.add("§7Progress to " + StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
                 }
 
-                try{
-                    description.add("§e " + (nextLevel - 1) + " §l➡ §e" + nextLevel + " (" + percent + "%)");
-                } catch (Exception e){
-                    description.add("§e" + task.getLevel().size() + " MAXXED" );
-                }
-
-
                 description.add("");
                 description.add("§e§mClick to view!§r §c§lComing Soon!");
                 ItemStack collection = createItem("§f" + names.get(keyInt) + " §e" + RomanConverter.toRoman(currentLevel), icons.get(keyInt), description);
