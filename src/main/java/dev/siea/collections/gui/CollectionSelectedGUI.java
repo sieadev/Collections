@@ -53,7 +53,7 @@ public class CollectionSelectedGUI  implements GUI{
             name.append(" ").append(RomanConverter.toRoman(currentLevel));
             description.add("");
             int percent = (int) LevelUtil.getPercentToLevel(score, requiredScore);
-            description.add("§7Progress to " + StringUtils.capitalize(target.toString().replace("_", " ")) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
+            description.add("§7Progress to " + names.get(keyInt) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
             description.add(LevelUtil.generateBar(score, requiredScore));
         }
         else{
