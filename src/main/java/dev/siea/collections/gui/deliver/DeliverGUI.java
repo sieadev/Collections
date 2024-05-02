@@ -1,30 +1,31 @@
-package dev.siea.collections.gui;
+package dev.siea.collections.gui.deliver;
 
+import dev.siea.collections.collections.Type;
 import dev.siea.collections.collections.other.Task;
 import dev.siea.collections.creator.CreationManager;
-import dev.siea.collections.util.LevelUtil;
-import dev.siea.collections.util.RomanConverter;
-import dev.siea.collections.util.StringUtils;
+import dev.siea.collections.creator.CreationState;
+import dev.siea.collections.gui.CollectionsOverviewGUI;
+import dev.siea.collections.gui.GUI;
+import dev.siea.collections.gui.GUIWrapper;
+import dev.siea.collections.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static dev.siea.collections.gui.GUIWrapper.*;
+import static dev.siea.collections.gui.GUIWrapper.names;
 import static dev.siea.collections.util.GUIUtil.createItem;
 
-public class CollectionSelectedGUI implements GUI{
+public class DeliverGUI implements GUI{
     private final Player player;
     private final Inventory inventory;
 
-    public CollectionSelectedGUI(Player player, int id, int score) {
+    public DeliverGUI(Player player, int id, int score) {
         this.player = player;
         Inventory inventory;
         Task task = tasks.get(id);
@@ -61,39 +62,20 @@ public class CollectionSelectedGUI implements GUI{
         ItemStack collection = createItem(name.toString(), icons.get(keyInt), description);
         inventory.setItem(4, collection);
 
-        int slot = 22 - (task.getLevel().size() / 2);
-        int levelCounter = 1;
-        for (int scoreForLevel : task.getLevel()){
-            ItemStack level;
 
-            List<String> desc = new ArrayList<>();
-            desc.add("");
-            int percent = (int) LevelUtil.getPercentToLevel(score, scoreForLevel);
-            desc.add("§7Progress to " + names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter) + ": §e" + percent + "§6%");
-            desc.add(LevelUtil.generateBar(score, scoreForLevel));
-            if (score >= scoreForLevel){
-                level = createItem(names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter), Material.GREEN_STAINED_GLASS_PANE, desc);
-            } else{
-                level = createItem(names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter), Material.RED_STAINED_GLASS_PANE, desc);
-            }
-            inventory.setItem(slot, level);
-            slot++;
-            levelCounter++;
+        List<String> deliverDescription = new ArrayList<>();
+        int amount = InventoryUtil.countMaterial(player,(Material) task.getTarget());
+        if (amount == 0) {
+            deliverDescription.add("§eClick to deliver §6" + amount + " §e " + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ")));
+        } else {
+            deliverDescription.add("§cYou dont have any §6" + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ")));
         }
 
-        if (slot % 2 == 0){
-            ItemStack filler = createItem(" ", Material.BARRIER);
-            inventory.setItem(slot, filler);
-        }
-
-
-        ItemStack back = createItem("§cBack", Material.ARROW);
-        inventory.setItem(inventory.getSize()-6, back);
+        ItemStack deliver = createItem("§eDeliver", Material.CHEST, deliverDescription);
+        inventory.setItem(4, deliver);
 
         ItemStack close = createItem("§cClose", Material.BARRIER);
         inventory.setItem(inventory.getSize()-5, close);
-
-
 
         this.inventory = inventory;
     }
@@ -105,10 +87,6 @@ public class CollectionSelectedGUI implements GUI{
         if (slot == inventory.getSize()-5) {
             GUIWrapper.close(inventory);
             e.getWhoClicked().closeInventory();
-        }
-        else if (slot == inventory.getSize()-6) {
-            GUIWrapper.close(inventory);
-            GUIWrapper.openGUI(player, CollectionsOverviewGUI.class);
         }
     }
 
