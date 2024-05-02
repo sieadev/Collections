@@ -76,7 +76,7 @@ public class CollectionsOverviewGUI implements GUI{
                     name.append(" ").append(RomanConverter.toRoman(currentLevel));
                     description.add("");
                     int percent = (int) LevelUtil.getPercentToLevel(currentScore, requiredScore);
-                    description.add("§7Progress to " + name + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
+                    description.add("§7Progress to " + names.get(keyInt) + " " + RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
                     description.add(LevelUtil.generateBar(currentScore, requiredScore));
                 }
                 else{
