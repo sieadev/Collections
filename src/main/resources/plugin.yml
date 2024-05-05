@@ -5,6 +5,8 @@ api-version: '1.20'
 load: STARTUP
 authors: [siea]
 website: https://projects.siea.dev/collections
+softdepend:
+  - PlaceholderAPI
 commands:
   collections:
     permission: collections.overview

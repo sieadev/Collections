@@ -98,9 +98,9 @@ public class Manager {
         return collection;
     }
 
-    public static Collection getCollection(String name){
+    public static Collection getCollection(int id){
         for (Collection collection : collections.values()){
-            if (collection.getName().equals(name)){
+            if (collection.getID() == id){
                 return collection;
             }
         }

@@ -55,6 +55,7 @@ public class CollectionsCreatorGUI implements GUI{
                 }
                 List<String> description = new ArrayList<>();
                 Task task = tasks.get(key);
+                description.add("§c§lID: " + key);
                 description.add("§7" + descriptions.get(key));
                 description.add("§e§lTask:");
                 description.add("§aType - §6" + types.get(key).name());

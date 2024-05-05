@@ -6,6 +6,7 @@ import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.listeners.PlayerConnectionListeners;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.messages.Messages;
+import dev.siea.collections.papi.CollectionPlaceholder;
 import dev.siea.collections.storage.StorageManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -17,7 +18,6 @@ public final class Collections extends JavaPlugin {
     private static Plugin plugin;
     @Override
     public void onEnable() {
-
         for (Player player : getServer().getOnlinePlayers()) {
             player.kickPlayer("§e[CollectionsX]: reloading scores...");
         }
@@ -37,6 +37,14 @@ public final class Collections extends JavaPlugin {
         Objects.requireNonNull(getCommand("collections")).setExecutor(new CollectionsCommand());
         getServer().getPluginManager().registerEvents(new PlayerConnectionListeners(),this);
         getServer().getPluginManager().registerEvents(new CreationManager(),this);
+
+        //Register Papi Placeholders
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new CollectionPlaceholder(this).register();
+            getLogger().info("Custom placeholders registered successfully.");
+        } else {
+            getLogger().warning("PlaceholderAPI not found. Custom placeholders will not work.");
+        }
     }
 
     @Override
