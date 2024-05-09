@@ -12,6 +12,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MySQLWrapper implements Storage {
     private final HikariDataSource dataSource;
@@ -123,13 +124,14 @@ public class MySQLWrapper implements Storage {
 
     @Override
     public int saveCollection(Collection collection) {
-        int id = 0;
+        int id = ThreadLocalRandom.current().nextInt(100000, 999999 + 1);;
         try (Connection connection = dataSource.getConnection()) {
-            String countQuery = "SELECT COUNT(*) FROM Collections";
-            try (PreparedStatement countStatement = connection.prepareStatement(countQuery)) {
-                ResultSet countResultSet = countStatement.executeQuery();
-                if (countResultSet.next()) {
-                    id = countResultSet.getInt(1); // Assign the ID based on the count
+            String query = "SELECT * FROM Collections";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    String resultID = resultSet.getString("ID");
+                    if (Integer.parseInt(resultID) == id){ return saveCollection(collection); }
                 }
             }
 
