@@ -1,16 +1,11 @@
 package dev.siea.collections.gui;
 
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.Type;
-import dev.siea.collections.collections.other.Task;
-import dev.siea.collections.creator.CreationState;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.util.LevelUtil;
 import dev.siea.collections.util.RomanConverter;
-import dev.siea.collections.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;

@@ -1,10 +1,7 @@
 package dev.siea.collections.gui.deliver;
 
-import dev.siea.collections.collections.Type;
-import dev.siea.collections.collections.other.Task;
-import dev.siea.collections.creator.CreationManager;
-import dev.siea.collections.creator.CreationState;
-import dev.siea.collections.gui.CollectionsOverviewGUI;
+import dev.siea.collections.collections.common.Task;
+import dev.siea.collections.collections.deliver.DeliverCollection;
 import dev.siea.collections.gui.GUI;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.util.*;
@@ -24,8 +21,10 @@ import static dev.siea.collections.util.GUIUtil.createItem;
 public class DeliverGUI implements GUI{
     private final Player player;
     private final Inventory inventory;
+    private final DeliverCollection manager;
 
-    public DeliverGUI(Player player, int id, int score) {
+    public DeliverGUI(Player player, int id, int score, DeliverCollection manager) {
+        this.manager = manager;
         this.player = player;
         Inventory inventory;
         Task task = tasks.get(id);
@@ -88,6 +87,11 @@ public class DeliverGUI implements GUI{
             GUIWrapper.close(inventory);
             e.getWhoClicked().closeInventory();
         }
+        else if (slot == 4){
+            manager.deliver(player);
+            GUIWrapper.close(inventory);
+            e.getWhoClicked().closeInventory();
+        };
     }
 
     @Override

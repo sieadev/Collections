@@ -1,6 +1,6 @@
 package dev.siea.collections.storage.file;
 
-import dev.siea.collections.collections.Collection;
+import dev.siea.collections.collections.common.Collection;
 import dev.siea.collections.storage.Storage;
 import org.bukkit.entity.Player;
 

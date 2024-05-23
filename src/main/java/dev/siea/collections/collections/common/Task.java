@@ -1,4 +1,4 @@
-package dev.siea.collections.collections.other;
+package dev.siea.collections.collections.common;
 import java.util.ArrayList;
 import java.util.List;
 

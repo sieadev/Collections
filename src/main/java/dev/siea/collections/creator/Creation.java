@@ -1,7 +1,7 @@
 package dev.siea.collections.creator;
 
-import dev.siea.collections.collections.Type;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Type;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.gui.creator.BaseCreatorGUI;
 import dev.siea.collections.gui.creator.SelectGlobalGUI;
@@ -10,7 +10,6 @@ import dev.siea.collections.gui.creator.SelectTypeGUI;
 import dev.siea.collections.managers.Manager;
 import dev.siea.collections.messages.Messages;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

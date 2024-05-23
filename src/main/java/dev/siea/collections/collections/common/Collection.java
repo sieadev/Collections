@@ -1,6 +1,5 @@
-package dev.siea.collections.collections;
+package dev.siea.collections.collections.common;
 
-import dev.siea.collections.collections.other.Task;
 import org.bukkit.entity.Player;
 
 import java.util.List;

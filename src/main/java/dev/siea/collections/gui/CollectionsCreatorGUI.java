@@ -1,6 +1,6 @@
 package dev.siea.collections.gui;
 
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.creator.CreationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

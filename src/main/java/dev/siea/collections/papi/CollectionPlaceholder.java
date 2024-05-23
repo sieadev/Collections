@@ -1,8 +1,8 @@
 package dev.siea.collections.papi;
 
 import dev.siea.collections.api.CollectionsAPI;
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.util.LevelUtil;
 import dev.siea.collections.util.RomanConverter;
 import dev.siea.collections.util.StringUtils;

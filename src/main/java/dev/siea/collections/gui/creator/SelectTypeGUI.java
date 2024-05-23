@@ -1,6 +1,6 @@
 package dev.siea.collections.gui.creator;
 
-import dev.siea.collections.collections.Type;
+import dev.siea.collections.collections.common.Type;
 import dev.siea.collections.creator.CreationManager;
 import dev.siea.collections.creator.CreationState;
 import dev.siea.collections.gui.GUI;

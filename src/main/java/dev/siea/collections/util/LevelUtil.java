@@ -1,15 +1,13 @@
 package dev.siea.collections.util;
 
 import dev.siea.collections.Collections;
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.messages.Messages;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LevelUtil {

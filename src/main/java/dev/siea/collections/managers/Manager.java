@@ -1,15 +1,16 @@
 package dev.siea.collections.managers;
 
 import dev.siea.collections.collections.*;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.deliver.DeliverCollection;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Task;
+import dev.siea.collections.collections.common.Type;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.storage.StorageManager;
-import dev.siea.collections.util.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Manager {
     private static Plugin plugin;
     private static final HashMap<Integer, Collection> collections = new HashMap<>();
 
-    public static Collection createCollection(Type type, String name, String description,  List<List<String>> rewards, Object target, boolean global, int level, int startingIndex){
+    public static Collection createCollection(Type type, String name, String description, List<List<String>> rewards, Object target, boolean global, int level, int startingIndex){
         Collection collection;
         switch (type){
             case KILL:

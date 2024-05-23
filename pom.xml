@@ -6,7 +6,7 @@
 
     <groupId>dev.siea</groupId>
     <artifactId>Collections</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.3-ALPHA</version>
     <packaging>jar</packaging>
 
     <name>Collections</name>

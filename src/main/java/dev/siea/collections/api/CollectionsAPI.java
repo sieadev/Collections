@@ -1,7 +1,7 @@
 package dev.siea.collections.api;
 
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Task;
 import dev.siea.collections.managers.Manager;
 import org.bukkit.entity.Player;
 

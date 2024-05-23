@@ -1,13 +1,16 @@
 package dev.siea.collections.gui;
 
-import dev.siea.collections.collections.Collection;
-import dev.siea.collections.collections.Type;
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Type;
+import dev.siea.collections.collections.common.Task;
+import dev.siea.collections.collections.deliver.DeliverCollection;
+import dev.siea.collections.collections.deliver.DeliveryManager;
 import dev.siea.collections.creator.Creation;
 import dev.siea.collections.gui.creator.BaseCreatorGUI;
 import dev.siea.collections.gui.creator.SelectGlobalGUI;
 import dev.siea.collections.gui.creator.SelectMobGUI;
 import dev.siea.collections.gui.creator.SelectTypeGUI;
+import dev.siea.collections.gui.deliver.DeliverGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,10 +29,6 @@ public class GUIWrapper implements Listener {
     public static final HashMap<Integer, String> descriptions = new HashMap<>();
     public static final HashMap<Integer, Task> tasks = new HashMap<>();
     public static final HashMap<Integer, Type> types = new HashMap<>();
-
-    public GUIWrapper() {
-
-    }
 
     public static void openGUI(Player player, Class<? extends GUI> clazz) {
         GUI gui;
@@ -65,6 +64,12 @@ public class GUIWrapper implements Listener {
 
     public static void openGUI(Player player, int id, int score) {
         GUI gui = new CollectionSelectedGUI(player,id,score);
+        inventories.put( gui.getInventory(), gui);
+        player.openInventory(gui.getInventory());
+    }
+
+    public static void openGUI(Player player, int id, int score, DeliverCollection manager) {
+        GUI gui = new DeliverGUI(player,id,score,manager);
         inventories.put( gui.getInventory(), gui);
         player.openInventory(gui.getInventory());
     }

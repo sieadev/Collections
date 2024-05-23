@@ -16,8 +16,7 @@ import java.util.StringJoiner;
 public class CollectionsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender,@NotNull Command cmd,@NotNull String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             if (args.length > 0) {
                 String subcommand = args[0].toLowerCase();
                 switch (subcommand) {

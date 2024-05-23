@@ -5,6 +5,8 @@ useRomanNumerals: true
 complete: "&e%collection% §a§lCOMPLETE&e! %previousLevel% ➡ %newLevel%"
 levelUp: "&e%collection% level up! %previousLevel% ➡ %newLevel%"
 unlocked: "&6Hey There! &eYou unlocked the &a%collection% &ecollection"
+delivered: "&eYou have delivered &6%totalItemsDelivered%&e items"
+nothingToDeliver: "&cYou have nothing to deliver"
 
 # Command descriptions
 overviewCommand: "§7View your active collections"

@@ -1,6 +1,6 @@
 package dev.siea.collections.storage;
 
-import dev.siea.collections.collections.Collection;
+import dev.siea.collections.collections.common.Collection;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

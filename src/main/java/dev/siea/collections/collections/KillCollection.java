@@ -1,6 +1,8 @@
 package dev.siea.collections.collections;
 
-import dev.siea.collections.collections.other.Task;
+import dev.siea.collections.collections.common.Collection;
+import dev.siea.collections.collections.common.Task;
+import dev.siea.collections.collections.common.Type;
 import dev.siea.collections.storage.StorageManager;
 import dev.siea.collections.util.LevelUtil;
 import org.bukkit.entity.EntityType;

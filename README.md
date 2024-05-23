@@ -18,3 +18,8 @@
 | `%Collection_{id}_score%`        | The players score in the collection                           |
 | `%Collection_{id}_scoreToNext%`  | The amount of points the player is missing for the next level |
 | `%Collection_{id}_bar%`          | Returns a styled bar showing the players progression          |
+
+### Other Data regarding players
+| Key                             | Data                                                           |
+|---------------------------------|----------------------------------------------------------------|
+| `%Collection_recent%`           | The collection the player increased their score in most recent |

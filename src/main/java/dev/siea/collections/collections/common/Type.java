@@ -1,4 +1,4 @@
-package dev.siea.collections.collections;
+package dev.siea.collections.collections.common;
 
 import org.bukkit.Material;
 
