@@ -11,3 +11,7 @@ commands:
   collections:
     permission: collections.overview
     description: View your active collections
+  delivery:
+    permission: collections.openDeliveryGUI
+    description: Open a DeliveryGUI
+    usage: "/delivery <id> <player_name/player_uuid>"

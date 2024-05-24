@@ -1,6 +1,7 @@
 package dev.siea.collections;
 
 import dev.siea.collections.commands.CollectionsCommand;
+import dev.siea.collections.commands.DeliveryCommand;
 import dev.siea.collections.creator.CreationManager;
 import dev.siea.collections.gui.GUIWrapper;
 import dev.siea.collections.listeners.PlayerConnectionListeners;
@@ -35,6 +36,7 @@ public final class Collections extends JavaPlugin {
         Manager.enable(this);
         getServer().getPluginManager().registerEvents(new GUIWrapper(),this);
         Objects.requireNonNull(getCommand("collections")).setExecutor(new CollectionsCommand());
+        Objects.requireNonNull(getCommand("delivery")).setExecutor(new DeliveryCommand());
         getServer().getPluginManager().registerEvents(new PlayerConnectionListeners(),this);
         getServer().getPluginManager().registerEvents(new CreationManager(),this);
 

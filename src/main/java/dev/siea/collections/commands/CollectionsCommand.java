@@ -20,9 +20,7 @@ public class CollectionsCommand implements CommandExecutor {
             if (args.length > 0) {
                 String subcommand = args[0].toLowerCase();
                 switch (subcommand) {
-                    case "help" -> {
-                        player.sendMessage(generateHelpMessage(player));
-                    }
+                    case "help" -> player.sendMessage(generateHelpMessage(player));
                     case "modify", "edit" , "create", "admin" -> {
                         if (player.hasPermission("collections.create")) {
                             GUIWrapper.openGUI(player, CollectionsCreatorGUI.class);

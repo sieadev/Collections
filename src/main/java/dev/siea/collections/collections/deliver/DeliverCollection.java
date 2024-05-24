@@ -65,6 +65,10 @@ public class DeliverCollection implements Collection, Listener {
         }
     }
 
+    public void openGUI(Player player){
+        deliveryManager.openDeliveryGUI(player);
+    }
+
     @EventHandler
     public void onPlayerInteract(BlockPlaceEvent e){
         deliveryManager.onBlockPlace(e);
