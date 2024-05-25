@@ -61,7 +61,6 @@ public class DeliverGUI implements GUI{
         ItemStack collection = createItem(name.toString(), icons.get(keyInt), description);
         inventory.setItem(4, collection);
 
-
         List<String> deliverDescription = new ArrayList<>();
         int amount = InventoryUtil.countMaterial(player,(Material) task.getTarget());
         if (amount > 0) {
@@ -71,10 +70,7 @@ public class DeliverGUI implements GUI{
         }
 
         ItemStack deliver = createItem("§6§lDeliver", Material.CHEST, deliverDescription);
-        inventory.setItem(4, deliver);
-
-        ItemStack item = new ItemStack((Material) task.getTarget());
-        inventory.setItem(4+9+9, item);
+        inventory.setItem(4+9+9, deliver);
 
         ItemStack close = createItem("§cClose", Material.BARRIER);
         inventory.setItem(inventory.getSize()-5, close);
@@ -90,7 +86,7 @@ public class DeliverGUI implements GUI{
             GUIWrapper.close(inventory);
             e.getWhoClicked().closeInventory();
         }
-        else if (slot == 4){
+        else if (slot == 4+9+9){
             manager.deliver(player);
             GUIWrapper.close(inventory);
             e.getWhoClicked().closeInventory();

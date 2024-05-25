@@ -3,14 +3,14 @@ useRomanNumerals: true
 
 #Collection notifications
 complete: "&e%collection% §a§lCOMPLETE&e! %previousLevel% ➡ %newLevel%"
-levelUp: "&e%collection% level up! %previousLevel% ➡ %newLevel%"
+levelUp: "&e%collection%&e level up! %previousLevel% ➡ %newLevel%"
 unlocked: "&6Hey There! &eYou unlocked the &a%collection% &ecollection"
 delivered: "&eYou have delivered &6%totalItemsDelivered%&e items"
 nothingToDeliver: "&cYou have nothing to deliver"
 
 # Command descriptions
-overviewCommand: "§7View your active collections"
-createCommand: "§7Open the collections creator page"
+overviewCommand: "&7View your active collections"
+createCommand: "&7Open the collections creator page"
 
 # Administration
 leftCreation: "&cYou left the collection creator"
