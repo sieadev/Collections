@@ -52,8 +52,9 @@ public class DeliverGUI implements GUI{
             name.append(" ").append(RomanConverter.toRoman(currentLevel));
             description.add("");
             int percent = (int) LevelUtil.getPercentToLevel(score, requiredScore);
+            if (percent < 0) { percent = 0; }
             description.add("§7Progress to " + names.get(keyInt) + " "+ RomanConverter.toRoman(nextLevel) + ": §e" + percent + "§6%");
-            description.add(LevelUtil.generateBar(score, requiredScore));
+            description.add(LevelUtil.generateBar(score, requiredScore) + "§r §e(" + score + "/" + requiredScore + ")");
         }
         else{
             name.append(" ").append("§aCOMPLETE");

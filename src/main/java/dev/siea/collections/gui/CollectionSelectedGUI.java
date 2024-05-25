@@ -67,7 +67,7 @@ public class CollectionSelectedGUI implements GUI{
             desc.add("");
             int percent = (int) LevelUtil.getPercentToLevel(score, scoreForLevel);
             desc.add("§7Progress to " + names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter) + ": §e" + percent + "§6%");
-            desc.add(LevelUtil.generateBar(score, scoreForLevel));
+            desc.add(LevelUtil.generateBar(score, scoreForLevel) + "§r §e(" + score + "/" + scoreForLevel + ")");
             if (score >= scoreForLevel){
                 level = createItem(names.get(keyInt) + " "+ RomanConverter.toRoman(levelCounter), Material.GREEN_STAINED_GLASS_PANE, desc);
             } else{
