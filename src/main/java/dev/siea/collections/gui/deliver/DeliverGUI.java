@@ -64,14 +64,17 @@ public class DeliverGUI implements GUI{
 
         List<String> deliverDescription = new ArrayList<>();
         int amount = InventoryUtil.countMaterial(player,(Material) task.getTarget());
-        if (amount == 0) {
-            deliverDescription.add("§eClick to deliver §6" + amount + " §e " + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ")));
+        if (amount > 0) {
+            deliverDescription.add("§eClick to deliver §6" + amount + " §e" + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ").toLowerCase()));
         } else {
-            deliverDescription.add("§cYou dont have any §6" + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ")));
+            deliverDescription.add("§cYou dont have any §6" + StringUtils.capitalize(((Material) task.getTarget()).name().replace("_", " ").toLowerCase()));
         }
 
-        ItemStack deliver = createItem("§eDeliver", Material.CHEST, deliverDescription);
+        ItemStack deliver = createItem("§6§lDeliver", Material.CHEST, deliverDescription);
         inventory.setItem(4, deliver);
+
+        ItemStack item = new ItemStack((Material) task.getTarget());
+        inventory.setItem(4+9+9, item);
 
         ItemStack close = createItem("§cClose", Material.BARRIER);
         inventory.setItem(inventory.getSize()-5, close);

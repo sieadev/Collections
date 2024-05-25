@@ -82,7 +82,7 @@ public class Creation {
                     openCreatorGUI();
                     return;
                 }
-                player.sendMessage("§eEnter a command you would like executed on level §b" + commandStage + "§e:");
+                player.sendMessage("§eEnter a command you would like executed on level §b" + commandStage + " §b(@p or %player% serve as placeholders)§e:");
                 player.closeInventory();
             }
             case FINISH -> finish();

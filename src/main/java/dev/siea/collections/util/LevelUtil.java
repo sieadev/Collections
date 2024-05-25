@@ -34,6 +34,7 @@ public class LevelUtil {
                 List<List<String>> commands = collection.getCommands();
                 List<String> command = commands.get(currentLevel-1);
                 for (String cmd : command){
+                    cmd = cmd.replace("%player%", player.getName()).replace("@p",player.getName());
                     Collections.getPlugin().getServer().dispatchCommand(Collections.getPlugin().getServer().getConsoleSender(), cmd);
                 }
             } catch (Exception ignore){

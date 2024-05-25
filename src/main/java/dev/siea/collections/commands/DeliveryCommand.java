@@ -23,10 +23,17 @@ public class DeliveryCommand implements CommandExecutor {
             sender.sendMessage("Collection not found or not a delivery Collection");
             return true;
         }
-
         String playerSomething = args[1];
-        Player player = Bukkit.getPlayer(playerSomething);
-        if (player == null) { player = Bukkit.getPlayer(UUID.fromString(playerSomething)); }
+        Player player = null;
+        try{
+            player = Bukkit.getPlayer(playerSomething); 
+        } catch (Exception ignore){
+            try {
+                player = Bukkit.getPlayer(UUID.fromString(playerSomething));
+            } catch (Exception ignore2){
+            }
+        }
+        
         if (player == null) {
             sender.sendMessage("Player not found.");
             return true;
