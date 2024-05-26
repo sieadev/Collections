@@ -70,9 +70,10 @@ public class CollectionsCreatorGUI implements GUI{
                 ItemStack collection = createItem("§f" + names.get(key), icons.get(key), description);
                 inventory.setItem(slot++, collection);
             }
-            ItemStack create = createItem("§6Creator" , Material.EMERALD_BLOCK, "§eClick to open the Creator");
-            inventory.setItem(inventory.getSize()-5, create);
         }
+
+        ItemStack create = createItem("§6Creator" , Material.EMERALD_BLOCK, "§eClick to open the Creator");
+        inventory.setItem(inventory.getSize()-5, create);
         this.inventory = inventory;
     }
 
