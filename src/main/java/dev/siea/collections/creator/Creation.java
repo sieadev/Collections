@@ -117,8 +117,12 @@ public class Creation {
                 return;
             }
             case TARGET -> {
-                if (!message.equalsIgnoreCase("select")){
-                    player.sendMessage("§cUnknown input. Did you mean §6SELECT§c?");
+                if (message.toLowerCase().contains("cancel")){
+                    openCreatorGUI();
+                    return;
+                }
+                if (!message.toLowerCase().contains("select")){
+                    player.sendMessage("§cUnknown input. Did you mean §6SELECT§c? (" + message + "§c)");
                     return;
                 }
                 if (type == Type.BREAK || type == Type.PLACE || type == Type.DELIVER){

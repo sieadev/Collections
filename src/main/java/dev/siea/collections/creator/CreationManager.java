@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
 import java.util.HashMap;
@@ -32,15 +31,16 @@ public class CreationManager implements Listener {
     public void onAsyncPlayerChat(PlayerChatEvent event) {
         Creation creation = creations.get(event.getPlayer());
         if (creation != null) {
-            event.setCancelled(true);
             creation.handleChatMessage(event.getMessage());
+            event.setMessage("");
+            event.setCancelled(true);
         }
     }
 
     @EventHandler (priority = EventPriority.LOW)
     public void onPlayerEnteredCommand(PlayerCommandPreprocessEvent event){
         Creation creation = creations.get(event.getPlayer());
-        if (creation != null) {
+        if (creation != null && creation.getState() == CreationState.COMMANDS) {
             event.setCancelled(true);
             creation.handleChatMessage(event.getMessage());
         }
